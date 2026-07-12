@@ -3,25 +3,7 @@ import { octane } from '@octanejs/vite-plugin';
 import { VitePWA } from 'vite-plugin-pwa';
 import { defineConfig, type Plugin } from 'vite';
 import path from 'node:path';
-
-function octanePackageShims(): Plugin {
-	const rpcShim = path.resolve(__dirname, 'patches/octane-rpc-shim.js');
-	const cssShim = path.resolve(__dirname, 'patches/octane-css-shim.js');
-	return {
-		name: 'octane-package-shims',
-		enforce: 'pre',
-		resolveId(source, importer) {
-			if (!importer?.includes('octane/dist')) return null;
-			if (source === './rpc.js' && importer.includes('octane/dist/server')) {
-				return rpcShim;
-			}
-			if (source === './css.js') {
-				return cssShim;
-			}
-			return null;
-		},
-	};
-}
+import { createOctaneResolveShimsPlugin } from './patches/octane/resolve-shims-plugin.js';
 
 function octaneServerAlias(): Plugin {
 	return {
@@ -36,7 +18,7 @@ function octaneServerAlias(): Plugin {
 }
 
 function clientOnlySsrStubs(): Plugin {
-	const textGenStub = path.resolve(__dirname, 'patches/text-gen-ssr-stub.js');
+	const textGenStub = path.resolve(__dirname, 'patches/dev/text-gen-ssr-stub.js');
 	return {
 		name: 'client-only-ssr-stubs',
 		enforce: 'pre',
@@ -51,7 +33,7 @@ function clientOnlySsrStubs(): Plugin {
 }
 
 function pwaRegisterDevStub(): Plugin {
-	const stub = path.resolve(__dirname, 'patches/pwa-register-dev-stub.js');
+	const stub = path.resolve(__dirname, 'patches/dev/pwa-register-dev-stub.js');
 	return {
 		name: 'pwa-register-dev-stub',
 		enforce: 'pre',
@@ -71,7 +53,7 @@ export default defineConfig(({ command }) => {
 		appType: 'custom',
 		publicDir: 'public',
 		plugins: [
-			octanePackageShims(),
+			createOctaneResolveShimsPlugin(__dirname),
 			octaneServerAlias(),
 			clientOnlySsrStubs(),
 			...(isDev ? [pwaRegisterDevStub()] : []),

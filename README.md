@@ -41,9 +41,9 @@ bun run dev
 - `src/components/` — UI components
 - `src/data/` — Static site content
 - `public/` — Static assets
-- `scripts/` — Build-time asset and Tailwind helpers
+- `scripts/` — Build-time asset helpers and npm patch runner
 - `tests/` — Shared test setup and e2e specs
-- `patches/` — Local shims for Octane SSR and dev stubs
+- `patches/` — Local fixes for octane@0.1.3 packaging gaps (see [`patches/README.md`](patches/README.md))
 
 ## Testing
 
