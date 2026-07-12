@@ -55,7 +55,7 @@ async function compileTsrxSources() {
 			},
 		},
 		include: ['**/*.tsx', '../env.d.ts', '../octane-jsx.d.ts'],
-		exclude: ['../dist', '../node_modules', '../vendor'],
+		exclude: ['../dist', '../node_modules'],
 	};
 	await writeFile(
 		path.join(outRoot, 'tsconfig.json'),

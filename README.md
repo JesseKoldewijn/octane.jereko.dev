@@ -19,7 +19,6 @@ bun run dev
 | `bun run dev`              | Start the Vite dev server with SSR                                   |
 | `bun run build`            | Production build (prerender HTML, static Vercel output)              |
 | `bun run preview`          | Preview the prerendered static build locally                         |
-| `bun run octane:sync`      | Refresh the vendored Octane monorepo from GitHub                     |
 | `bun run typecheck`        | Type-check `.ts`/`.tsx` (tsc) and `.tsrx` (Octane Volar pipeline)    |
 | `bun run typecheck:tsrx`   | Type-check `.tsrx` components only                                   |
 | `bun run test`             | Run unit, integration, and component tests                           |
@@ -50,7 +49,7 @@ Linting uses **Oxlint type-aware mode** (`oxlint-tsgolint`) for `.ts`/`.tsx` —
 - `src/config/` — Shared route list, page meta, and site config
 - `src/data/` — Static site content
 - `public/` — Static assets
-- `scripts/` — Build-time helpers (Octane sync, Tailwind sources, sitemap, prerender, Vercel adapt)
+- `scripts/` — Build-time helpers (Tailwind sources, sitemap, prerender, Vercel adapt)
 - `tests/` — Shared test setup and e2e specs
 
 ## Testing

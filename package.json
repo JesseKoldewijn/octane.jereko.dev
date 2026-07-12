@@ -7,8 +7,6 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
-		"preinstall": "node scripts/sync-octane-from-github.mjs",
-		"octane:sync": "node scripts/sync-octane-from-github.mjs",
 		"postinstall": "node scripts/generate-tailwind-sources.mjs",
 		"predev": "node scripts/generate-tailwind-sources.mjs && node scripts/fetch-external-images.mjs",
 		"build": "node scripts/generate-tailwind-sources.mjs && node scripts/fetch-external-images.mjs && bun scripts/generate-sitemap.mjs && vite build && bun scripts/prerender-static.mjs && node scripts/adapt-vercel.mjs",
@@ -30,22 +28,22 @@
 		"test:watch": "vitest"
 	},
 	"dependencies": {
-		"@octanejs/floating-ui": "file:./vendor/octane/packages/floating-ui",
-		"@octanejs/motion": "file:./vendor/octane/packages/motion",
-		"@octanejs/radix": "file:./vendor/octane/packages/radix",
-		"@octanejs/tanstack-router": "file:./vendor/octane/packages/tanstack-router",
-		"@octanejs/vite-plugin": "file:./vendor/octane/packages/vite-plugin-octane",
+		"@octanejs/floating-ui": "0.1.3",
+		"@octanejs/motion": "0.1.3",
+		"@octanejs/radix": "0.1.3",
+		"@octanejs/tanstack-router": "0.1.3",
+		"@octanejs/vite-plugin": "0.1.4",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"devalue": "^5.8.1",
 		"motion": "^12.42.2",
-		"octane": "file:./vendor/octane/packages/octane",
+		"octane": "0.1.4",
 		"platformicons": "^9.5.0",
 		"tailwind-merge": "^3.6.0",
 		"workbox-window": "^7.4.1"
 	},
 	"devDependencies": {
-		"@octanejs/testing-library": "file:./vendor/octane/packages/testing-library",
+		"@octanejs/testing-library": "0.1.1",
 		"@tailwindcss/typography": "^0.5.20",
 		"@tailwindcss/vite": "^4.3.2",
 		"@types/node": "^26.1.1",
@@ -65,19 +63,5 @@
 	"engines": {
 		"node": ">=24"
 	},
-	"packageManager": "bun@1.3.14",
-	"octaneSource": {
-		"repository": "https://github.com/octanejs/octane.git",
-		"ref": "main",
-		"packages": {
-			"octane": "packages/octane",
-			"@octanejs/vite-plugin": "packages/vite-plugin-octane",
-			"@octanejs/adapter-vercel": "packages/adapter-vercel",
-			"@octanejs/tanstack-router": "packages/tanstack-router",
-			"@octanejs/motion": "packages/motion",
-			"@octanejs/radix": "packages/radix",
-			"@octanejs/floating-ui": "packages/floating-ui",
-			"@octanejs/testing-library": "packages/testing-library"
-		}
-	}
+	"packageManager": "bun@1.3.14"
 }

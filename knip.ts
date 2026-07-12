@@ -38,8 +38,6 @@ const config = {
 		'src/components/layout/Layout.tsrx',
 		'src/components/layout/SiteShellHead.tsrx',
 		'src/components/layout/navbar/NavbarPlaceholder.tsrx',
-		// Octane monorepo clone (preinstall sync); not part of this app.
-		'vendor/**',
 	],
 	ignoreDependencies: [
 		'@tailwindcss/typography',
