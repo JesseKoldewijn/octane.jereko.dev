@@ -17,7 +17,6 @@
 @source "../components/ClientOnly.tsrx";
 @source "../components/NavLink.component.test.tsx";
 @source "../components/NavLink.tsrx";
-@source "../components/PwaRegister.tsrx";
 @source "../components/animated/animated-grad-text.tsrx";
 @source "../components/animated/moving-cards-tech-used.tsrx";
 @source "../components/animated/text-gen-fallback.tsrx";

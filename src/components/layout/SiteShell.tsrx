@@ -3,7 +3,6 @@ import { Navbar } from '@/components/layout/navbar/Navbar.tsrx';
 import { useHydrated } from '@/components/ClientOnly.tsrx';
 import { MobileNavDialog } from '@/components/layout/navbar/mobile/MobileNavDialog.tsrx';
 import { FooterWithSlots } from '@/components/layout/FooterWithSlots.tsrx';
-import { PwaRegister } from '@/components/PwaRegister.tsrx';
 import { getSocialsByPlatform } from '@/data/queries';
 import { getMetaForPath, SITE_URL } from '@/config/meta.ts';
 import { SiteShellPage } from '@/components/layout/SiteShellPage.tsrx';
@@ -45,7 +44,6 @@ export function SiteShell(props: { pathname?: string }) @{
   }, [pathname]);
 
   <div>
-    <PwaRegister />
     <Navbar />
     @if (hydrated) {
       <MobileNavDialog socials={socials} />

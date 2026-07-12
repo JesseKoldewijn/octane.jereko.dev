@@ -1,6 +1,18 @@
 import { describe, expect, it } from 'vitest';
 
-import { fetchRoute } from './helpers';
+import { e2eBaseUrl, fetchRoute } from './helpers';
+
+async function readClientEntryFromSite(): Promise<string> {
+	const html = await (await fetchRoute('/')).text();
+	const match = html.match(/<script[^>]+src="(\/assets\/index-[^"]+\.js)"/i);
+	expect(match?.[1]).toBeTruthy();
+
+	const scriptUrl = new URL(match![1]!, e2eBaseUrl());
+	const response = await fetch(scriptUrl);
+	expect(response.ok).toBe(true);
+
+	return response.text();
+}
 
 describe('site routes', () => {
 	it('renders the home page with hero content', async () => {
@@ -52,6 +64,21 @@ describe('site navigation', () => {
 	it('injects route-specific document title', async () => {
 		const html = await (await fetchRoute('/about-me/hobbies')).text();
 		expect(html).toContain('<title>Hobbies | Jereko</title>');
+	});
+});
+
+describe('client bundle', () => {
+	it('does not create a circular App chunk import back into the hydrate entry', async () => {
+		const indexSource = await readClientEntryFromSite();
+		const appMatch = indexSource.match(/import\(`\.\/(App-[^`]+\.js)`\)/);
+		expect(appMatch?.[1]).toBeTruthy();
+
+		const appSource = await fetch(new URL(`/assets/${appMatch![1]!}`, e2eBaseUrl())).then(
+			(response) => response.text(),
+		);
+
+		expect(appSource).not.toMatch(/from"\.\/index-[^"]+"/);
+		expect([...appSource.matchAll(/import\([^)]+\)/g)]).toHaveLength(0);
 	});
 });
 

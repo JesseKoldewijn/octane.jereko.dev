@@ -46,6 +46,18 @@ export default defineConfig(({ command }) => {
 		build: {
 			target: 'baseline-widely-available',
 			cssCodeSplit: false,
+			rollupOptions: {
+				output: {
+					manualChunks(id) {
+						if (
+							id.includes('/node_modules/octane/') ||
+							id.includes('/node_modules/@octanejs/')
+						) {
+							return 'framework';
+						}
+					},
+				},
+			},
 		},
 	};
 });
