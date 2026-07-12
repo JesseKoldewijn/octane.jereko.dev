@@ -1,7 +1,8 @@
 import { NavLink } from '@/components/NavLink.tsrx';
 import { Button } from '@/components/ui/button';
+import type { HeroBannerContent } from '@/lib/tsrx-props';
 
-export function HeroSectionButtons(props) @{
+export function HeroSectionButtons(props: { bannerContent: HeroBannerContent }) @{
 	const { bannerContent } = props;
 
 	@if (bannerContent.ctas && bannerContent.ctas.length == 2) {

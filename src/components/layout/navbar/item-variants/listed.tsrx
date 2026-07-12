@@ -1,10 +1,14 @@
 import { listedLinks } from '@/data/navigation';
 import { base } from '@/utils/hostname';
 import { hrefToTestIdSlug, testIds } from '@/testids';
+import type { NavLink } from '@/data/navigation';
 import { ListItem } from '../_parts/listItem.tsrx';
 import { NavDropdown } from '../_parts/NavDropdown.tsrx';
 
-export function ListedNavSection(props) @{
+export function ListedNavSection(props: {
+	triggerTitle: string;
+	links?: readonly NavLink[];
+}) @{
 	const { triggerTitle, links = listedLinks.links } = props;
 
 	<NavDropdown

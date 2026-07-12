@@ -1,7 +1,14 @@
 import { cn } from '@/lib/utils';
 import { animatedGradient } from '@/utils/prog-classes';
 
-export function AnimatedGradientText(props) @{
+type AnimatedGradientTextProps = {
+	text: string;
+	variant?: 'span' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p';
+	className?: string;
+	class?: string;
+};
+
+export function AnimatedGradientText(props: AnimatedGradientTextProps) @{
 	const { text, variant = 'span', className, class: classProp } = props;
 	const classes = cn(animatedGradient(), className ?? classProp);
 

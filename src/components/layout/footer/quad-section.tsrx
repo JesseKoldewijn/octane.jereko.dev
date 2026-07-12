@@ -4,7 +4,7 @@ import { mostRecentExp } from '@/data/queries';
 import { cn } from '@/lib/utils';
 import { getAgeByDateString } from '@/utils/age';
 
-function PageListItem(props) @{
+function PageListItem(props: { href: string; name: string }) @{
 	const { href, name } = props;
 	const isExternalLink = !href.startsWith('/');
 

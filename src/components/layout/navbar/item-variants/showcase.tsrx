@@ -1,9 +1,14 @@
 import { base } from '@/utils/hostname';
 import { hrefToTestIdSlug, testIds } from '@/testids';
+import type { NavLink, NavShowcaseEntry } from '@/data/navigation';
 import { ListItem } from '../_parts/listItem.tsrx';
 import { NavDropdown } from '../_parts/NavDropdown.tsrx';
 
-export function ShowcaseNavSection(props) @{
+export function ShowcaseNavSection(props: {
+	triggerTitle: string;
+	showcase: NavShowcaseEntry['showcase'];
+	links?: readonly NavLink[];
+}) @{
 	const { triggerTitle, showcase, links } = props;
 
 	<NavDropdown

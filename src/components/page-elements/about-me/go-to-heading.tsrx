@@ -1,6 +1,6 @@
 import { testIds } from '@/testids';
 
-export function GoToHeading(props) @{
+export function GoToHeading(props: { children: unknown; [key: string]: unknown }) @{
 	const { children, ...rest } = props;
 
 	const goToNavigation = () => {

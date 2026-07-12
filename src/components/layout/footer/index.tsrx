@@ -3,8 +3,13 @@ import { LuGithub } from '@/icons/lu/Github';
 import { LuLinkedin } from '@/icons/lu/LinkedIn';
 import { appConfig } from '@/config/app';
 import { ToTopButton } from './to-top-button.tsrx';
+import type { Social, Socials } from '@/data/socials';
 
-export function Footer(props) @{
+export function Footer(props: {
+	topSlot: unknown;
+	innerSlot: unknown;
+	socials: Socials | null;
+}) @{
 	const { topSlot, innerSlot, socials } = props;
 
 	const getYear = () => {
@@ -16,7 +21,7 @@ export function Footer(props) @{
 
 	const getByPlatform = (platform: string) => {
 		if (!socials) return null;
-		return socials.find((social) => social.platform === platform);
+		return socials.find((social: Social) => social.platform === platform);
 	};
 
 	const twitter = getByPlatform('twitter');
