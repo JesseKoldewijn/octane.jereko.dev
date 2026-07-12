@@ -200,6 +200,7 @@ const vitePluginPatches = [
 	['vite-plugin/render-route.js', 'server/render-route.js'],
 	['vite-plugin/project-codegen.js', 'project-codegen.js'],
 	['vite-plugin/load-config.js', 'load-config.js'],
+	['vite-plugin/node-runtime.js', 'node-runtime.js'],
 ];
 
 for (const [src, dest] of vitePluginPatches) {
@@ -305,3 +306,5 @@ await copyFile(
 );
 
 console.log('[patch-packages] patched octane dist + @octanejs/vite-plugin');
+
+await import('./patch-vite-plugin-phase2.mjs');

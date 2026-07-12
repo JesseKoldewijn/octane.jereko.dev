@@ -30,9 +30,10 @@ export default async function globalSetup() {
 	process.env.E2E_BASE_URL = BASE_URL;
 
 	const entryPath = path.join(process.cwd(), 'dist/server/entry.js');
+	const serverScript = path.join(process.cwd(), 'scripts/production-server.mjs');
 
 	if (fs.existsSync(entryPath)) {
-		serverProcess = spawn(process.execPath, [entryPath], {
+		serverProcess = spawn(process.execPath, [serverScript], {
 			env: { ...process.env, PORT: String(PORT), HOST, NODE_ENV: 'production' },
 			stdio: ['ignore', 'pipe', 'pipe'],
 		});

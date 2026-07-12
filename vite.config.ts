@@ -64,28 +64,11 @@ function pwaRegisterDevStub(): Plugin {
 	};
 }
 
-function ensureClientBuildInput(): Plugin {
-	const indexHtml = path.resolve(__dirname, 'index.html');
-	return {
-		name: 'ensure-octane-client-build-input',
-		config(userConfig) {
-			if (userConfig.build?.ssr) return {};
-			return {
-				build: {
-					rollupOptions: {
-						input: indexHtml,
-					},
-				},
-			};
-		},
-	};
-}
-
 export default defineConfig(({ command }) => {
 	const isDev = command === 'serve';
 
 	return {
-		appType: 'spa',
+		appType: 'custom',
 		publicDir: 'public',
 		plugins: [
 			octanePackageShims(),
@@ -94,7 +77,6 @@ export default defineConfig(({ command }) => {
 			...(isDev ? [pwaRegisterDevStub()] : []),
 			tailwindcss(),
 			octane(),
-			ensureClientBuildInput(),
 			...(isDev
 				? []
 				: [
@@ -162,9 +144,6 @@ export default defineConfig(({ command }) => {
 
 		build: {
 			target: 'esnext',
-			rollupOptions: {
-				input: path.resolve(__dirname, 'index.html'),
-			},
 		},
 	};
 });

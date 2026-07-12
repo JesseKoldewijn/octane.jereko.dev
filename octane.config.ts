@@ -43,5 +43,6 @@ export default defineConfig({
 				status: 404,
 			} as RenderRouteOptions),
 		],
+		preHydrate: '/src/app/router-client.ts',
 	},
 });

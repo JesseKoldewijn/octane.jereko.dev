@@ -9,8 +9,8 @@
 		"dev": "vite",
 		"postinstall": "node scripts/patch-packages.mjs && node scripts/generate-tailwind-sources.mjs",
 		"predev": "node scripts/generate-tailwind-sources.mjs && node scripts/fetch-external-images.mjs",
-		"build": "node scripts/patch-packages.mjs && node scripts/generate-tailwind-sources.mjs && node scripts/fetch-external-images.mjs && node scripts/generate-sitemap.mjs && vite build && node scripts/inject-ssr-stylesheet.mjs",
-		"preview": "octane-preview",
+		"build": "node scripts/patch-packages.mjs && node scripts/generate-tailwind-sources.mjs && node scripts/fetch-external-images.mjs && node scripts/generate-sitemap.mjs && vite build && node scripts/adapt-vercel.mjs",
+		"preview": "node scripts/production-server.mjs",
 		"typecheck": "tsc --noEmit",
 		"lint": "oxlint src scripts tests vite.config.ts octane.config.ts vitest.config.ts env.d.ts",
 		"lint:fix": "oxlint src scripts tests vite.config.ts octane.config.ts vitest.config.ts env.d.ts --fix",
@@ -61,7 +61,7 @@
 		"vitest": "^4.1.10"
 	},
 	"engines": {
-		"node": ">=20"
+		"node": ">=24"
 	},
 	"packageManager": "bun@1.3.14"
 }

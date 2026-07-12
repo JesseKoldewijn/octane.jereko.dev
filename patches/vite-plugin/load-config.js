@@ -21,6 +21,7 @@ import path from 'node:path';
 import fs from 'node:fs';
 import { compile } from 'octane/compiler';
 import { DEFAULT_OUTDIR } from './constants.js';
+import { runtime as nodeRuntime } from './node-runtime.js';
 
 const OCTANE_EXTENSION_PATTERN = /\.tsrx$/;
 
@@ -108,13 +109,13 @@ export function resolveOctaneConfig(raw, options = {}) {
 			);
 		}
 
-		if (!raw.adapter.runtime) {
-			throw new Error(
-				'[@octanejs/vite-plugin] The adapter in octane.config.ts is missing the `runtime` property. ' +
-					'Make sure your adapter exports runtime primitives.',
-			);
-		}
+		// Vercel and other deploy adapters may omit runtime — Node defaults apply.
 	}
+
+	const adapter =
+		raw.adapter && requireAdapter && !raw.adapter.runtime
+			? { ...raw.adapter, runtime: nodeRuntime }
+			: raw.adapter;
 
 	if (raw.router?.routes !== undefined && !Array.isArray(raw.router.routes)) {
 		throw new Error('[@octanejs/vite-plugin] router.routes must be an array.');
@@ -135,7 +136,7 @@ export function resolveOctaneConfig(raw, options = {}) {
 			minify: raw.build?.minify,
 			target: raw.build?.target,
 		},
-		adapter: raw.adapter,
+		adapter,
 		router: {
 			routes: raw.router?.routes ?? [],
 			preHydrate: raw.router?.preHydrate,
