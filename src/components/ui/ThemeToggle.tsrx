@@ -6,7 +6,7 @@ export function ThemeToggle() @{
 		id="theme-toggle"
 		type="button"
 		data-testid={testIds.theme.toggle}
-		class="inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-primary text-primary-foreground hover:bg-primary/90 hover:text-background h-10 w-10 border p-2"
+		class="inline-flex items-center cursor-pointer justify-center whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-primary text-primary-foreground hover:bg-primary/90 hover:text-background h-10 w-10 border p-2"
 		aria-label="Toggle theme"
 		onClick={(e) => {
 			e.preventDefault();
