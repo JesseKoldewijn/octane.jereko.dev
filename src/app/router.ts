@@ -6,10 +6,7 @@ import {
 } from '@octanejs/tanstack-router';
 import { EmptyPage } from './EmptyPage.tsrx';
 
-const LazyNotFound = lazyRouteComponent(
-	() => import('../pages/NotFound.tsrx'),
-	'NotFound',
-);
+const LazyNotFound = lazyRouteComponent(() => import('../pages/NotFound.tsrx'), 'NotFound');
 
 export interface RouterEnv {
 	history?: unknown;
