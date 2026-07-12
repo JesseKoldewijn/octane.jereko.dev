@@ -5,10 +5,7 @@ export const APP_BUILD_ID_STORAGE_KEY = 'jereko-app-build-id';
 export type BuildIdCheckResult = 'first-visit' | 'match' | 'mismatch';
 
 /** Compare stored and current deploy IDs (pure, testable). */
-export function compareBuildIds(
-	stored: string | null,
-	current: string,
-): BuildIdCheckResult {
+export function compareBuildIds(stored: string | null, current: string): BuildIdCheckResult {
 	if (stored === null) return 'first-visit';
 	return stored === current ? 'match' : 'mismatch';
 }
