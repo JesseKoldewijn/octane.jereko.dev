@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 /**
  * Tailwind v4 + @tailwindcss/vite does not pick up .tsrx via glob @source.
  * Inject per-file @source entries into globals.css (must live in the tailwind entry file).
@@ -16,9 +16,9 @@ const globalsFile = path.join(stylesDir, 'globals.css');
 const START = '/* tailwind-sources:start */';
 const END = '/* tailwind-sources:end */';
 
-async function walk(dir) {
+async function walk(dir: string): Promise<string[]> {
 	const entries = await readdir(dir, { withFileTypes: true });
-	const files = [];
+	const files: string[] = [];
 	for (const entry of entries) {
 		const full = path.join(dir, entry.name);
 		if (entry.isDirectory()) {

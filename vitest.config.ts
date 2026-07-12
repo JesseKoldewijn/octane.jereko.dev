@@ -28,7 +28,7 @@ export default defineConfig((configEnv) => {
 						extends: true,
 						test: {
 							name: 'unit',
-							include: ['src/**/*.unit.test.ts'],
+							include: ['src/**/*.unit.test.ts', 'scripts/**/*.unit.test.ts'],
 							environment: 'node',
 						},
 					},

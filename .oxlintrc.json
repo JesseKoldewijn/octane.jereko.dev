@@ -16,8 +16,7 @@
 		".tsrx-check/**",
 		"node_modules/**",
 		"coverage/**",
-		"public/**",
-		"scripts/**"
+		"public/**"
 	],
 	"rules": {
 		"no-debugger": "error",

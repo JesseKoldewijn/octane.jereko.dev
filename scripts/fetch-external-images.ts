@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 /**
  * Downloads remote images referenced by app data so static hosting serves them locally.
  * Includes hero/footer webp assets and YouTube thumbnails.
@@ -14,7 +14,7 @@ const imagesDir = join(root, 'public/images');
 const techIconsDir = join(imagesDir, 'technologies');
 const outDir = join(imagesDir, 'external/youtube');
 
-const YOUTUBE_THUMB = (id) => `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
+const YOUTUBE_THUMB = (id: string) => `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
 
 /** Static assets mirrored from production jereko.dev */
 const STATIC_IMAGES = [
@@ -30,19 +30,19 @@ const STATIC_IMAGES = [
 		url: 'https://jereko.dev/_astro/profile.Cby-IqTy.webp',
 		dest: join(imagesDir, 'profile.webp'),
 	},
-];
+] as const;
 
-function collectYoutubeIdsFromEventsSource(source) {
-	const ids = new Set();
+function collectYoutubeIdsFromEventsSource(source: string): string[] {
+	const ids = new Set<string>();
 	const watchRe = /watch\?v=([A-Za-z0-9_-]{6,})/g;
-	let m;
+	let m: RegExpExecArray | null;
 	while ((m = watchRe.exec(source)) !== null) ids.add(m[1]);
 	const shortRe = /youtu\.be\/([A-Za-z0-9_-]{6,})/g;
 	while ((m = shortRe.exec(source)) !== null) ids.add(m[1]);
 	return [...ids];
 }
 
-async function fetchBinary(url) {
+async function fetchBinary(url: string): Promise<Buffer> {
 	const res = await fetch(url, {
 		headers: {
 			'user-agent': 'Mozilla/5.0 (compatible; JerekoStaticAssetFetcher/1.0; +https://jereko.dev)',
@@ -60,11 +60,11 @@ async function fetchBinary(url) {
 	return buf;
 }
 
-async function fetchThumbnail(id) {
+async function fetchThumbnail(id: string): Promise<Buffer> {
 	return fetchBinary(YOUTUBE_THUMB(id));
 }
 
-async function syncTechIconsFromPlatformicons() {
+async function syncTechIconsFromPlatformicons(): Promise<void> {
 	const vercelSource = join(root, 'node_modules/platformicons/svg_80x80/vercel.svg');
 	const vercelDest = join(techIconsDir, 'vercel.svg');
 
@@ -81,7 +81,7 @@ async function syncTechIconsFromPlatformicons() {
 	}
 }
 
-async function fetchStaticImages() {
+async function fetchStaticImages(): Promise<void> {
 	await mkdir(imagesDir, { recursive: true });
 
 	for (const { url, dest } of STATIC_IMAGES) {
@@ -99,7 +99,7 @@ async function fetchStaticImages() {
 	}
 }
 
-async function fetchYoutubeThumbnails() {
+async function fetchYoutubeThumbnails(): Promise<string | null> {
 	const source = await readFile(eventsPath, 'utf8');
 	const ids = collectYoutubeIdsFromEventsSource(source);
 	if (ids.length === 0) {
@@ -126,7 +126,7 @@ async function fetchYoutubeThumbnails() {
 	return ids[0] ?? null;
 }
 
-async function main() {
+async function main(): Promise<void> {
 	await syncTechIconsFromPlatformicons();
 	await fetchStaticImages();
 	const firstYoutubeId = await fetchYoutubeThumbnails();

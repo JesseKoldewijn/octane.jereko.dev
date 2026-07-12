@@ -39,7 +39,7 @@ bun run dev
 
 Linting uses **Oxlint type-aware mode** (`oxlint-tsgolint`) for `.ts`/`.tsx` — it runs TypeScript diagnostics and rules like `typescript/no-unsafe-*` alongside standard lint rules.
 
-`.tsrx` Octane components are checked separately: `scripts/typecheck-tsrx.mjs` compiles each file through Octane’s Volar pipeline (same as the editor) and fails on implicit `any` (e.g. untyped `props`). Run `bun run typecheck:tsrx` to see only those issues.
+`.tsrx` Octane components are checked separately: `scripts/typecheck-tsrx.ts` compiles each file through Octane’s Volar pipeline (same as the editor) and fails on implicit `any` (e.g. untyped `props`). Run `bun run typecheck:tsrx` to see only those issues.
 
 ## Project layout
 
@@ -49,7 +49,8 @@ Linting uses **Oxlint type-aware mode** (`oxlint-tsgolint`) for `.ts`/`.tsx` —
 - `src/config/` — Shared route list, page meta, and site config
 - `src/data/` — Static site content
 - `public/` — Static assets
-- `scripts/` — Build-time helpers (Tailwind sources, sitemap, prerender, Vercel adapt)
+- `scripts/` — Build-time TypeScript helpers (Tailwind sources, sitemap, prerender, Vercel adapt)
+- `vite/plugins/` — Vite plugin modules (PWA, SSR stubs, build ID injection)
 - `tests/` — Shared test setup and e2e specs
 
 ## Testing

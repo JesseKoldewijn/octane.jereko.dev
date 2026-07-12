@@ -1,9 +1,9 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 /**
  * Emit static-only .vercel/output after prerender completes (no serverless function).
  */
 import { cpSync, existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -20,9 +20,8 @@ rmSync(outputDir, { recursive: true, force: true });
 mkdirSync(staticDir, { recursive: true });
 cpSync(clientDir, staticDir, { recursive: true });
 
-/** @type {{ version: 3; cleanUrls: boolean; routes: Array<Record<string, unknown>> }} */
 const config = {
-	version: 3,
+	version: 3 as const,
 	cleanUrls: true,
 	routes: [
 		{

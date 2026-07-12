@@ -1,20 +1,20 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 /**
  * Serve prerendered static output for preview and e2e tests.
  */
-import { createServer } from 'node:http';
 import { createReadStream, existsSync, statSync } from 'node:fs';
-import { join, extname } from 'node:path';
+import { createServer } from 'node:http';
+import { extname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { htmlOutputPath } from './lib/static-paths.mjs';
+import { htmlOutputPath } from './lib/static-paths.ts';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const staticDir = join(root, 'dist/client');
 const port = Number(process.env.PORT ?? 3000);
 const host = process.env.HOST ?? '127.0.0.1';
 
-const MIME = {
+const MIME: Record<string, string> = {
 	'.css': 'text/css',
 	'.html': 'text/html; charset=utf-8',
 	'.ico': 'image/x-icon',
@@ -30,10 +30,7 @@ const MIME = {
 	'.webmanifest': 'application/manifest+json',
 };
 
-/**
- * @param {string} pathname
- */
-function resolveStaticFile(pathname) {
+function resolveStaticFile(pathname: string): string | null {
 	if (pathname !== '/' && pathname.endsWith('/')) {
 		pathname = pathname.slice(0, -1);
 	}
@@ -53,7 +50,7 @@ function resolveStaticFile(pathname) {
 
 const server = createServer((req, res) => {
 	const url = new URL(req.url ?? '/', `http://${req.headers.host ?? 'localhost'}`);
-	let pathname = decodeURIComponent(url.pathname);
+	const pathname = decodeURIComponent(url.pathname);
 
 	const filePath = resolveStaticFile(pathname);
 	if (filePath) {

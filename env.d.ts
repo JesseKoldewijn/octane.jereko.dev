@@ -2,6 +2,19 @@
 
 declare const __APP_BUILD_ID__: string;
 
+declare module 'octane/compiler/volar' {
+	export interface VolarCompileError {
+		message?: string;
+	}
+
+	export interface VolarCompileResult {
+		code: string;
+		errors: VolarCompileError[];
+	}
+
+	export function compileToVolarMappings(source: string, file: string): VolarCompileResult;
+}
+
 declare module '*.tsrx' {
 	import type { ComponentType } from 'octane';
 

@@ -20,6 +20,8 @@
 	"include": [
 		"src",
 		"tests",
+		"scripts",
+		"vite",
 		"env.d.ts",
 		"octane-jsx.d.ts",
 		"octane.config.ts",

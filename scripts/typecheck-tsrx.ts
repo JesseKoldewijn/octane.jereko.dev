@@ -1,25 +1,30 @@
+#!/usr/bin/env bun
 /**
  * Type-check Octane .tsrx sources by compiling them to virtual TSX (same pipeline
  * editors use via octane/compiler/volar) and running tsc in strict mode.
- *
- * @typedef {{ message?: string }} CompileError
- * @typedef {{ file: string, errors: CompileError[] }} ParseFailure
  */
-import { compileToVolarMappings } from 'octane/compiler/volar';
 import { spawnSync } from 'node:child_process';
 import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { compileToVolarMappings } from 'octane/compiler/volar';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
 const srcRoot = path.join(root, 'src');
 const outRoot = path.join(root, '.tsrx-check');
 
-/** @param {string} dir @returns {Promise<string[]>} */
-async function walkTsrxFiles(dir) {
-	/** @type {string[]} */
-	const files = [];
+interface CompileError {
+	message?: string;
+}
+
+interface ParseFailure {
+	file: string;
+	errors: CompileError[];
+}
+
+async function walkTsrxFiles(dir: string): Promise<string[]> {
+	const files: string[] = [];
 	const entries = await readdir(dir, { withFileTypes: true });
 
 	for (const entry of entries) {
@@ -34,13 +39,11 @@ async function walkTsrxFiles(dir) {
 	return files;
 }
 
-/** @param {string} code */
-function rewriteTsrxImports(code) {
+function rewriteTsrxImports(code: string): string {
 	return code.replace(/from\s+(['"])([^'"]+)\.tsrx\1/g, 'from $1$2.tsx$1');
 }
 
-/** @returns {Promise<{ fileCount: number, parseErrors: ParseFailure[] }>} */
-async function compileTsrxSources() {
+async function compileTsrxSources(): Promise<{ fileCount: number; parseErrors: ParseFailure[] }> {
 	await rm(outRoot, { recursive: true, force: true });
 	await mkdir(outRoot, { recursive: true });
 
@@ -64,8 +67,7 @@ async function compileTsrxSources() {
 	);
 
 	const files = await walkTsrxFiles(srcRoot);
-	/** @type {ParseFailure[]} */
-	const parseErrors = [];
+	const parseErrors: ParseFailure[] = [];
 
 	for (const file of files) {
 		const source = await readFile(file, 'utf8');
@@ -92,8 +94,7 @@ function runTsc() {
 	});
 }
 
-/** @param {string} output */
-function implicitAnyDiagnostics(output) {
+function implicitAnyDiagnostics(output: string): string[] {
 	return output
 		.split('\n')
 		.filter(

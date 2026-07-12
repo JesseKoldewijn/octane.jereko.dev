@@ -30,10 +30,10 @@ export default async function globalSetup() {
 	process.env.E2E_BASE_URL = BASE_URL;
 
 	const staticIndex = path.join(process.cwd(), 'dist/client/index.html');
-	const serverScript = path.join(process.cwd(), 'scripts/static-server.mjs');
+	const serverScript = path.join(process.cwd(), 'scripts/static-server.ts');
 
 	if (fs.existsSync(staticIndex)) {
-		serverProcess = spawn(process.execPath, [serverScript], {
+		serverProcess = spawn('bun', [serverScript], {
 			env: { ...process.env, PORT: String(PORT), HOST, NODE_ENV: 'production' },
 			stdio: ['ignore', 'pipe', 'pipe'],
 		});

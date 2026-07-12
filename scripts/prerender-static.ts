@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 /**
  * Prerender all routes to static HTML using the production server handler.
  * Runs after vite build; dist/server/entry.js is build-time only.
@@ -8,16 +8,18 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { PRERENDER_ROUTES } from '../src/config/routes.ts';
-import { htmlOutputPath } from './lib/static-paths.mjs';
+import { inlineStylesheets } from './lib/inline-stylesheets.ts';
+import { htmlOutputPath } from './lib/static-paths.ts';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const clientDir = join(root, 'dist/client');
 const serverEntry = join(root, 'dist/server/entry.js');
 const ORIGIN = 'http://127.0.0.1';
+const cssCache = new Map<string, string>();
 
 /** Remove duplicate stylesheet links (Vite index.html + ssr-head injection). */
-function dedupeStylesheetLinks(html) {
-	const seen = new Set();
+function dedupeStylesheetLinks(html: string): string {
+	const seen = new Set<string>();
 	return html.replace(/<link\b[^>]*\brel=["']stylesheet["'][^>]*>/gi, (tag) => {
 		const hrefMatch = tag.match(/\bhref=["']([^"']+)["']/i);
 		if (!hrefMatch) return tag;
@@ -28,15 +30,13 @@ function dedupeStylesheetLinks(html) {
 	});
 }
 
-const { handler } = await import(serverEntry);
+const { handler } = (await import(serverEntry)) as {
+	handler: (request: Request) => Promise<Response>;
+};
 
-/**
- * @param {string} routePath
- */
-async function prerenderRoute(routePath) {
+async function prerenderRoute(routePath: string): Promise<void> {
 	const response = await handler(new Request(`${ORIGIN}${routePath}`));
 	let html = await response.text();
-	html = dedupeStylesheetLinks(html);
 
 	if (response.status !== 200) {
 		throw new Error(
@@ -45,18 +45,24 @@ async function prerenderRoute(routePath) {
 	}
 
 	const outPath = htmlOutputPath(clientDir, routePath);
+	html = dedupeStylesheetLinks(html);
+	html = await inlineStylesheets(html, clientDir, {
+		cssCache,
+		logLabel: outPath.replace(root + '/', ''),
+	});
+
 	await mkdir(dirname(outPath), { recursive: true });
 	await writeFile(outPath, html);
 	console.log(`[prerender-static] ${routePath} → ${outPath.replace(root + '/', '')}`);
 }
 
-/** @param {string} routePath
- * @param {number} expectedStatus
- */
-async function prerenderToFile(routePath, outFile, expectedStatus) {
+async function prerenderToFile(
+	routePath: string,
+	outFile: string,
+	expectedStatus: number,
+): Promise<void> {
 	const response = await handler(new Request(`${ORIGIN}${routePath}`));
 	let html = await response.text();
-	html = dedupeStylesheetLinks(html);
 
 	if (response.status !== expectedStatus) {
 		throw new Error(
@@ -65,6 +71,12 @@ async function prerenderToFile(routePath, outFile, expectedStatus) {
 	}
 
 	const outPath = join(clientDir, outFile);
+	html = dedupeStylesheetLinks(html);
+	html = await inlineStylesheets(html, clientDir, {
+		cssCache,
+		logLabel: outPath.replace(root + '/', ''),
+	});
+
 	await mkdir(dirname(outPath), { recursive: true });
 	await writeFile(outPath, html);
 	console.log(`[prerender-static] ${routePath} → ${outPath.replace(root + '/', '')}`);
