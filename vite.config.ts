@@ -116,11 +116,12 @@ export default defineConfig(({ command }) => {
 								],
 							},
 							workbox: {
-								navigateFallback: '/offline.html',
-								// SSR: never precache index.html — it is an empty shell without
-								// #__octane_data; serving it causes intermittent blank pages.
-								globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,avif,woff2}'],
-								globIgnores: ['**/index.html', 'index.html', '**/404.html', '404.html'],
+								// SSR: do not use navigateFallback — it registers a NavigationRoute
+								// that serves the fallback URL from precache for every navigation
+								// (SPA mode), bypassing the server and showing offline.html online.
+								navigateFallback: null,
+								globPatterns: ['**/*.{js,css,ico,png,svg,webp,avif,woff2}'],
+								globIgnores: ['**/404.html', '404.html'],
 								cleanupOutdatedCaches: true,
 								skipWaiting: true,
 								clientsClaim: true,
