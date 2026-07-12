@@ -1,31 +1,42 @@
 #!/usr/bin/env node
 /**
- * Emit .vercel/output after the full Vite build (including PWA) completes.
+ * Emit static-only .vercel/output after prerender completes (no serverless function).
  */
-import { existsSync } from 'node:fs';
-import path from 'node:path';
+import { cpSync, existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { loadOctaneConfig } from '@octanejs/vite-plugin';
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const config = await loadOctaneConfig(root);
-const outDir = config.build.outDir;
-const clientDir = path.join(root, outDir, 'client');
-const serverDir = path.join(root, outDir, 'server');
+const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+const clientDir = join(root, 'dist/client');
+const outputDir = join(root, '.vercel/output');
+const staticDir = join(outputDir, 'static');
 
-if (!existsSync(path.join(serverDir, 'entry.js'))) {
-	console.log('[adapt-vercel] No server entry — skipping Vercel output generation.');
+if (!existsSync(join(clientDir, 'index.html'))) {
+	console.log('[adapt-vercel] No prerendered index.html — skipping Vercel output generation.');
 	process.exit(0);
 }
 
-if (!config.adapter?.adapt) {
-	console.log('[adapt-vercel] No adapter.adapt() — skipping.');
-	process.exit(0);
-}
+rmSync(outputDir, { recursive: true, force: true });
+mkdirSync(staticDir, { recursive: true });
+cpSync(clientDir, staticDir, { recursive: true });
 
-await config.adapter.adapt({
-	root,
-	clientDir,
-	serverDir,
-	log: (msg) => console.log(msg),
-});
+/** @type {{ version: 3; cleanUrls: boolean; routes: Array<Record<string, unknown>> }} */
+const config = {
+	version: 3,
+	cleanUrls: true,
+	routes: [
+		{
+			src: '/assets/.+',
+			headers: { 'Cache-Control': 'public, max-age=31536000, immutable' },
+			continue: true,
+		},
+		{ handle: 'filesystem' },
+		{ src: '/(.*)', status: 404, dest: '/404.html' },
+	],
+};
+
+writeFileSync(join(outputDir, 'config.json'), JSON.stringify(config, null, '\t') + '\n');
+
+console.log(
+	'[adapt-vercel] Static Build Output written to .vercel/output (no serverless function)',
+);

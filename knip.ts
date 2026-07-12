@@ -21,6 +21,7 @@ const config = {
 		'src/app/router-server.ts',
 		'src/components/animated/text-gen.tsrx',
 		'octane.config.ts',
+		'src/config/routes.ts',
 		'scripts/*.mjs',
 		'src/**/*.unit.test.ts',
 		'src/**/*.integration.test.ts',
