@@ -14,25 +14,33 @@ bun run dev
 
 ## Scripts
 
-| Command                    | Description                                                    |
-| -------------------------- | -------------------------------------------------------------- |
-| `bun run dev`              | Start the Vite dev server with SSR                             |
-| `bun run build`            | Production build (assets, sitemap, Vercel output)              |
-| `bun run preview`          | Preview the production build locally                           |
-| `bun run typecheck`        | Run TypeScript in strict mode                                  |
-| `bun run test`             | Run unit, integration, and component tests                     |
-| `bun run test:unit`        | Run unit tests only                                            |
-| `bun run test:integration` | Run integration tests only                                     |
-| `bun run test:component`   | Run component tests (Octane Testing Library)                   |
-| `bun run test:e2e`         | Run e2e tests (SSR via production server or Vite dev fallback) |
-| `bun run test:all`         | Run every test suite including e2e                             |
-| `bun run test:watch`       | Run tests in watch mode                                        |
-| `bun run lint`             | Run Oxlint                                                     |
-| `bun run lint:fix`         | Run Oxlint with auto-fix                                       |
-| `bun run format`           | Format the repo with Oxfmt                                     |
-| `bun run format:check`     | Check formatting without writing                               |
-| `bun run knip`             | Find unused files, exports, and dependencies                   |
-| `bun run check`            | Run format, lint, typecheck, test, and knip                    |
+| Command                    | Description                                                          |
+| -------------------------- | -------------------------------------------------------------------- |
+| `bun run dev`              | Start the Vite dev server with SSR                                   |
+| `bun run build`            | Production build (assets, sitemap, Vercel output)                    |
+| `bun run preview`          | Preview the production build locally                                 |
+| `bun run octane:sync`      | Refresh the vendored Octane monorepo from GitHub                     |
+| `bun run typecheck`        | Type-check `.ts`/`.tsx` (tsc) and `.tsrx` (Octane Volar pipeline)    |
+| `bun run typecheck:tsrx`   | Type-check `.tsrx` components only                                   |
+| `bun run test`             | Run unit, integration, and component tests                           |
+| `bun run test:unit`        | Run unit tests only                                                  |
+| `bun run test:integration` | Run integration tests only                                           |
+| `bun run test:component`   | Run component tests (Octane Testing Library)                         |
+| `bun run test:e2e`         | Run e2e tests (SSR via production server or Vite dev fallback)       |
+| `bun run test:all`         | Run every test suite including e2e                                   |
+| `bun run test:watch`       | Run tests in watch mode                                              |
+| `bun run lint`             | Run Oxlint with type-aware rules and TypeScript diagnostics          |
+| `bun run lint:fix`         | Run Oxlint with auto-fix (type-aware)                                |
+| `bun run format`           | Format the repo with Oxfmt                                           |
+| `bun run format:check`     | Check formatting without writing                                     |
+| `bun run knip`             | Find unused files, exports, and dependencies                         |
+| `bun run check`            | Run format, lint, typecheck (`.ts` + `.tsrx`), build, test, and knip |
+
+## Type checking
+
+Linting uses **Oxlint type-aware mode** (`oxlint-tsgolint`) for `.ts`/`.tsx` — it runs TypeScript diagnostics and rules like `typescript/no-unsafe-*` alongside standard lint rules.
+
+`.tsrx` Octane components are checked separately: `scripts/typecheck-tsrx.mjs` compiles each file through Octane’s Volar pipeline (same as the editor) and fails on implicit `any` (e.g. untyped `props`). Run `bun run typecheck:tsrx` to see only those issues.
 
 ## Project layout
 
@@ -41,9 +49,8 @@ bun run dev
 - `src/components/` — UI components
 - `src/data/` — Static site content
 - `public/` — Static assets
-- `scripts/` — Build-time asset helpers and npm patch runner
+- `scripts/` — Build-time helpers (Octane sync, Tailwind sources, sitemap, Vercel adapt)
 - `tests/` — Shared test setup and e2e specs
-- `patches/` — Local fixes for octane@0.1.3 packaging gaps (see [`patches/README.md`](patches/README.md))
 
 ## Testing
 

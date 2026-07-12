@@ -2,10 +2,10 @@ import path from 'node:path';
 import { defineConfig, mergeConfig } from 'vitest/config';
 import viteConfigExport from './vite.config';
 
-export default defineConfig(async (configEnv) => {
+export default defineConfig((configEnv) => {
 	const viteUserConfig =
 		typeof viteConfigExport === 'function'
-			? await viteConfigExport({
+			? viteConfigExport({
 					...configEnv,
 					command: 'serve',
 					mode: configEnv.mode ?? 'test',

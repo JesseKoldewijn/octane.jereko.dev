@@ -3,7 +3,6 @@ import { octane } from '@octanejs/vite-plugin';
 import { VitePWA } from 'vite-plugin-pwa';
 import { defineConfig, type Plugin } from 'vite';
 import path from 'node:path';
-import { createOctaneResolveShimsPlugin } from './patches/octane/resolve-shims-plugin.js';
 
 function octaneServerAlias(): Plugin {
 	return {
@@ -17,35 +16,6 @@ function octaneServerAlias(): Plugin {
 	};
 }
 
-function clientOnlySsrStubs(): Plugin {
-	const textGenStub = path.resolve(__dirname, 'patches/dev/text-gen-ssr-stub.js');
-	return {
-		name: 'client-only-ssr-stubs',
-		enforce: 'pre',
-		resolveId(source, _importer, options) {
-			if (!options?.ssr) return null;
-			if (source.endsWith('text-gen.tsrx') || source.includes('animated/text-gen.tsrx')) {
-				return textGenStub;
-			}
-			return null;
-		},
-	};
-}
-
-function pwaRegisterDevStub(): Plugin {
-	const stub = path.resolve(__dirname, 'patches/dev/pwa-register-dev-stub.js');
-	return {
-		name: 'pwa-register-dev-stub',
-		enforce: 'pre',
-		resolveId(source) {
-			if (source === 'virtual:pwa-register') {
-				return stub;
-			}
-			return null;
-		},
-	};
-}
-
 export default defineConfig(({ command }) => {
 	const isDev = command === 'serve';
 
@@ -53,10 +23,7 @@ export default defineConfig(({ command }) => {
 		appType: 'custom',
 		publicDir: 'public',
 		plugins: [
-			createOctaneResolveShimsPlugin(__dirname),
 			octaneServerAlias(),
-			clientOnlySsrStubs(),
-			...(isDev ? [pwaRegisterDevStub()] : []),
 			tailwindcss(),
 			octane(),
 			...(isDev

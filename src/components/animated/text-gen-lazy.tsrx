@@ -2,13 +2,20 @@ import { useEffect, useState } from 'octane';
 import { useHydrated } from '@/components/ClientOnly.tsrx';
 import { TextGenFallback } from '@/components/animated/text-gen-fallback.tsrx';
 
-function TextGenAnimated(props) @{
+interface TextGenProps {
+	words: string[];
+	className?: string;
+}
+
+function TextGenAnimated(props: TextGenProps) @{
 	const { words, className } = props;
-	const [Animated, setAnimated] = useState(null);
+	const [Animated, setAnimated] = useState<((props: TextGenProps) => any) | null>(null);
 
 	useEffect(() => {
 		import('./text-gen.tsrx').then((mod) => {
-			setAnimated(() => mod.INTERNAL_TextGenComponent);
+			if (mod?.INTERNAL_TextGenComponent) {
+				setAnimated(() => mod.INTERNAL_TextGenComponent as unknown as typeof Animated);
+			}
 		});
 	}, []);
 
@@ -19,7 +26,12 @@ function TextGenAnimated(props) @{
 	}
 }
 
-export function TextGen(props) @{
+interface TextGenProps {
+	words: string[];
+	className?: string;
+}
+
+export function TextGen(props: TextGenProps) @{
 	const { words, className } = props;
 	const hydrated = useHydrated();
 

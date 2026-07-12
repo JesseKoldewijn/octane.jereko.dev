@@ -1,7 +1,12 @@
 import { motion, useAnimate, stagger } from '@octanejs/motion';
 import { useEffect, useLayoutEffect, useState } from 'octane';
 
-function RenderWords(props) @{
+interface RenderWordsProps {
+	wordsArray: string[];
+	scope: any;
+}
+
+function RenderWords(props: RenderWordsProps) @{
 	const { wordsArray, scope } = props;
 
 	<motion.div ref={scope}>
@@ -13,7 +18,12 @@ function RenderWords(props) @{
 	</motion.div>
 }
 
-export function INTERNAL_TextGenComponent(props) @{
+interface TextGenProps {
+	words: string;
+	className?: string;
+}
+
+export function INTERNAL_TextGenComponent(props: TextGenProps) @{
 	const { words, className } = props;
 	const [pathName, setPathName] = useState('');
 	const [scope, animate] = useAnimate();
