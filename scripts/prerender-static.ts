@@ -10,6 +10,7 @@ import { fileURLToPath } from 'node:url';
 import { PRERENDER_ROUTES } from '../src/config/routes.ts';
 import { inlineStylesheets } from './lib/inline-stylesheets.ts';
 import { htmlOutputPath } from './lib/static-paths.ts';
+import { stripModulepreloadLinks } from './lib/strip-modulepreload.ts';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const clientDir = join(root, 'dist/client');
@@ -46,6 +47,7 @@ async function prerenderRoute(routePath: string): Promise<void> {
 
 	const outPath = htmlOutputPath(clientDir, routePath);
 	html = dedupeStylesheetLinks(html);
+	html = stripModulepreloadLinks(html);
 	html = await inlineStylesheets(html, clientDir, {
 		cssCache,
 		logLabel: outPath.replace(root + '/', ''),
@@ -72,6 +74,7 @@ async function prerenderToFile(
 
 	const outPath = join(clientDir, outFile);
 	html = dedupeStylesheetLinks(html);
+	html = stripModulepreloadLinks(html);
 	html = await inlineStylesheets(html, clientDir, {
 		cssCache,
 		logLabel: outPath.replace(root + '/', ''),

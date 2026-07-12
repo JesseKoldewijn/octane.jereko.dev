@@ -10,6 +10,7 @@ describe('site routes', () => {
 		const html = await response.text();
 		expect(html).toContain('Jereko');
 		expect(html).toContain('Thanks for the visit!');
+		expect(html).not.toMatch(/rel=["']modulepreload["']/i);
 	});
 
 	it('renders the projects page', async () => {
