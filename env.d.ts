@@ -1,5 +1,7 @@
 /// <reference types="vite/client" />
 
+declare const __APP_BUILD_ID__: string;
+
 declare module '*.tsrx' {
 	import type { ComponentType } from 'octane';
 
@@ -51,6 +53,10 @@ declare module 'virtual:pwa-register' {
 		onNeedRefresh?: () => void;
 		onOfflineReady?: () => void;
 		onRegistered?: (registration: ServiceWorkerRegistration | undefined) => void;
+		onRegisteredSW?: (
+			swScriptUrl: string,
+			registration: ServiceWorkerRegistration | undefined,
+		) => void;
 		onRegisterError?: (error: unknown) => void;
 	}
 	export function registerSW(options?: RegisterSWOptions): (reloadPage?: boolean) => Promise<void>;

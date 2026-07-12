@@ -26,6 +26,16 @@ const config = {
 	cleanUrls: true,
 	routes: [
 		{
+			src: '/sw\\.js',
+			headers: { 'Cache-Control': 'no-cache, no-store, must-revalidate' },
+			continue: true,
+		},
+		{
+			src: '/workbox-.*\\.js',
+			headers: { 'Cache-Control': 'no-cache, no-store, must-revalidate' },
+			continue: true,
+		},
+		{
 			src: '/assets/.+',
 			headers: { 'Cache-Control': 'public, max-age=31536000, immutable' },
 			continue: true,

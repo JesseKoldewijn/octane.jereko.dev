@@ -1,33 +1,11 @@
 import { useEffect } from 'octane';
 import { unregisterAllServiceWorkers } from '@/lib/pwa-dev.ts';
-import { scheduleIdleTask } from '@/lib/schedule-idle.ts';
-
-const PWA_MIGRATION_VERSION = 'ssr-no-navigate-fallback-v5';
-const PWA_MIGRATION_KEY = 'jereko-pwa-migration';
+import {
+	ensureBuildMatchesOrReload,
+	registerServiceWorkerWithAutoUpdate,
+} from '@/lib/pwa-update.ts';
 
 let pwaClientInitStarted = false;
-
-async function runPwaMigrationOnce(): Promise<boolean> {
-	if (typeof window === 'undefined' || !('serviceWorker' in navigator)) {
-		return false;
-	}
-	try {
-		if (localStorage.getItem(PWA_MIGRATION_KEY) === PWA_MIGRATION_VERSION) {
-			return false;
-		}
-		const hadServiceWorker = (await navigator.serviceWorker.getRegistrations()).length > 0;
-		await unregisterAllServiceWorkers();
-		localStorage.setItem(PWA_MIGRATION_KEY, PWA_MIGRATION_VERSION);
-		return hadServiceWorker;
-	} catch {
-		try {
-			localStorage.setItem(PWA_MIGRATION_KEY, PWA_MIGRATION_VERSION);
-		} catch {
-			/* private mode */
-		}
-		return false;
-	}
-}
 
 export function PwaRegister() @{
 	useEffect(() => {
@@ -40,18 +18,10 @@ export function PwaRegister() @{
 				return;
 			}
 
-			const hadServiceWorker = await runPwaMigrationOnce();
-			if (hadServiceWorker) {
-				window.location.reload();
-				return;
-			}
+			const reloaded = await ensureBuildMatchesOrReload();
+			if (reloaded) return;
 
-			scheduleIdleTask(() => {
-				void (async () => {
-					const { registerSW } = await import('virtual:pwa-register');
-					registerSW({ immediate: true });
-				})();
-			});
+			await registerServiceWorkerWithAutoUpdate();
 		})();
 	}, []);
 }
