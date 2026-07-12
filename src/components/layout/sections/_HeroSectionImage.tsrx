@@ -85,6 +85,7 @@ export function HeroSectionImage(props: {
 			alt="hero"
 			onError={() => setIsError(true)}
 			loading="eager"
+			fetchpriority="high"
 		/>
 	</div>
 }

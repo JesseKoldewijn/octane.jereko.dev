@@ -1,5 +1,6 @@
 import { useEffect } from 'octane';
 import { unregisterAllServiceWorkers } from '@/lib/pwa-dev.ts';
+import { scheduleIdleTask } from '@/lib/schedule-idle.ts';
 
 const PWA_MIGRATION_VERSION = 'ssr-no-navigate-fallback-v5';
 const PWA_MIGRATION_KEY = 'jereko-pwa-migration';
@@ -45,8 +46,12 @@ export function PwaRegister() @{
 				return;
 			}
 
-			const { registerSW } = await import('virtual:pwa-register');
-			registerSW({ immediate: true });
+			scheduleIdleTask(() => {
+				void (async () => {
+					const { registerSW } = await import('virtual:pwa-register');
+					registerSW({ immediate: true });
+				})();
+			});
 		})();
 	}, []);
 }

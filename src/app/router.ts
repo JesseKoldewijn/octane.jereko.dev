@@ -1,6 +1,12 @@
-import { createRouter, createRootRoute, createRoute } from '@octanejs/tanstack-router';
+import {
+	createRouter,
+	createRootRoute,
+	createRoute,
+	lazyRouteComponent,
+} from '@octanejs/tanstack-router';
 import { EmptyPage } from './EmptyPage.tsrx';
-import { NotFound } from '../pages/NotFound.tsrx';
+
+const LazyNotFound = lazyRouteComponent(() => import('../pages/NotFound.tsrx'), 'NotFound');
 
 export interface RouterEnv {
 	history?: unknown;
@@ -10,7 +16,7 @@ export interface RouterEnv {
 export function makeRouter(env: RouterEnv = {}) {
 	const rootRoute = createRootRoute({
 		component: EmptyPage,
-		notFoundComponent: NotFound,
+		notFoundComponent: LazyNotFound,
 	});
 
 	const indexRoute = createRoute({
