@@ -41,14 +41,40 @@ jobs:
       - name: Build
         run: bun run build
 
+      - name: Install Chrome system libraries (act)
+        if: env.ACT == 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libasound2t64 \
+            libatk-bridge2.0-0t64 \
+            libatk1.0-0t64 \
+            libcups2t64 \
+            libdrm2 \
+            libgbm1 \
+            libgtk-3-0t64 \
+            libnspr4 \
+            libnss3 \
+            libxcomposite1 \
+            libxdamage1 \
+            libxfixes3 \
+            libxkbcommon0 \
+            libxrandr2
+
+      - name: Setup Chrome
+        id: setup-chrome
+        uses: browser-actions/setup-chrome@v1
+
       - name: Test
+        env:
+          CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
         run: bun run test:all
 
       - name: Knip
         run: bun run knip
 
       - name: notify vercel
-        if: always()
+        if: always() && env.ACT != 'true'
         uses: vercel/repository-dispatch/actions/status@v1
         with:
           name: 'Vercel - octane-jereko: CI'

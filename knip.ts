@@ -28,6 +28,7 @@ const config = {
 		'src/**/*.integration.test.ts',
 		'src/**/*.component.test.tsx',
 		'tests/e2e/**/*.e2e.test.ts',
+		'tests/lighthouse/**/*.ts',
 		'tests/setup/**/*.ts',
 	],
 	project: ['src/**/*.{ts,tsx,tsrx}', 'scripts/**/*.ts', 'vite/**/*.ts', 'tests/**/*.{ts,tsx}'],
