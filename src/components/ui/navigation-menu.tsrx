@@ -2,12 +2,13 @@ import { cva } from 'class-variance-authority';
 import { NavigationMenu as NavigationMenuPrimitive } from '@octanejs/radix';
 import { LuChevronDown } from '@/icons/lu/ChevronDown';
 import { cn } from '@/lib/utils';
+import type { ClassNameSlotProps } from '@/lib/tsrx-props';
 
 export const navigationMenuTriggerStyle = cva(
 	'group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50',
 );
 
-export function NavigationMenu(props) @{
+export function NavigationMenu(props: ClassNameSlotProps) @{
 	const { className, ref, children, ...rest } = props;
 	<NavigationMenuPrimitive.Root
 		ref={ref}
@@ -21,7 +22,7 @@ export function NavigationMenu(props) @{
 	</NavigationMenuPrimitive.Root>
 }
 
-export function NavigationMenuList(props) @{
+export function NavigationMenuList(props: ClassNameSlotProps) @{
 	const { className, ref, children, ...rest } = props;
 	<NavigationMenuPrimitive.List
 		ref={ref}
@@ -37,7 +38,7 @@ export function NavigationMenuList(props) @{
 
 export const NavigationMenuItem = NavigationMenuPrimitive.Item;
 
-export function NavigationMenuTrigger(props) @{
+export function NavigationMenuTrigger(props: ClassNameSlotProps) @{
 	const { className, ref, children, ...rest } = props;
 	<NavigationMenuPrimitive.Trigger
 		ref={ref}
@@ -47,12 +48,12 @@ export function NavigationMenuTrigger(props) @{
 		{children}{' '}
 		<LuChevronDown
 			className="relative top-[1px] ml-1 h-3 w-3 transition duration-200 group-data-[state=open]:rotate-180"
-			aria-hidden="true"
+			{...{ 'aria-hidden': 'true' }}
 		/>
 	</NavigationMenuPrimitive.Trigger>
 }
 
-export function NavigationMenuContent(props) @{
+export function NavigationMenuContent(props: ClassNameSlotProps) @{
 	const { className, ref, children, ...rest } = props;
 	<NavigationMenuPrimitive.Content
 		ref={ref}
@@ -68,7 +69,7 @@ export function NavigationMenuContent(props) @{
 
 export const NavigationMenuLink = NavigationMenuPrimitive.Link;
 
-export function NavigationMenuViewport(props) @{
+export function NavigationMenuViewport(props: ClassNameSlotProps) @{
 	const { className, ref, ...rest } = props;
 	<div className={cn('absolute top-full left-0 flex justify-center')}>
 		<NavigationMenuPrimitive.Viewport
@@ -82,7 +83,7 @@ export function NavigationMenuViewport(props) @{
 	</div>
 }
 
-export function NavigationMenuIndicator(props) @{
+export function NavigationMenuIndicator(props: ClassNameSlotProps) @{
 	const { className, ref, children, ...rest } = props;
 	<NavigationMenuPrimitive.Indicator
 		ref={ref}

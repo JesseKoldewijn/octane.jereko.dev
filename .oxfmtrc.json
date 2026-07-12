@@ -11,6 +11,7 @@
 		"node_modules/**",
 		"coverage/**",
 		"public/**",
+		"vendor/**",
 		"bun.lock",
 		"src/styles/globals.css"
 	]

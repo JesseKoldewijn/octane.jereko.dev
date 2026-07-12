@@ -1,10 +1,10 @@
 {
 	"compilerOptions": {
-		"target": "ES2022",
-		"lib": ["ES2022", "DOM", "DOM.Iterable"],
-		"module": "ESNext",
+		"lib": ["ESNext", "DOM", "DOM.Iterable"],
+		"target": "esnext",
+		"module": "esnext",
 		"moduleResolution": "bundler",
-		"jsx": "react-jsx",
+		"jsx": "preserve",
 		"strict": true,
 		"skipLibCheck": true,
 		"noEmit": true,
@@ -21,6 +21,7 @@
 		"src",
 		"tests",
 		"env.d.ts",
+		"octane-jsx.d.ts",
 		"octane.config.ts",
 		"vite.config.ts",
 		"vitest.config.ts",

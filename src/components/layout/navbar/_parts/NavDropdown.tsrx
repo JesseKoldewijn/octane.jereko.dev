@@ -5,7 +5,15 @@ import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu.tsrx
 
 const HOVER_OPEN_DELAY_MS = 200;
 
-export function NavDropdown(props) @{
+export function NavDropdown(props: {
+	trigger: unknown;
+	children: unknown;
+	class?: string;
+	className?: string;
+	panelClassName?: string;
+	triggerTestId?: string;
+	panelTestId?: string;
+}) @{
 	const {
 		trigger,
 		children,

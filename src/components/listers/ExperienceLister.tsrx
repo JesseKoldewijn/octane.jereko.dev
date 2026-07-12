@@ -1,7 +1,8 @@
 import { allExperiences, getExperienceStartDate } from '@/data/queries';
 import { ExperienceListerItem } from './ExperienceListerItem.tsrx';
+import type { Experience } from '@/data/experiences';
 
-export function ExperienceLister(props) @{
+export function ExperienceLister(props: { experienceOverride?: readonly Experience[] }) @{
 	const { experienceOverride } = props;
 	const experience = experienceOverride ?? allExperiences();
 

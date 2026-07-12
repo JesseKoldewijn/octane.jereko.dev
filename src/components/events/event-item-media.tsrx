@@ -1,6 +1,7 @@
 import { YoutubePlayer } from '@/lib/video/player.tsrx';
+import type { Event } from '@/data/events';
 
-export function EventItemMedia(props) @{
+export function EventItemMedia(props: { event: Event; origin: string }) @{
 	const { event, origin } = props;
 
 	@if ('url' in event && event.url && event.url_type === 'video') {

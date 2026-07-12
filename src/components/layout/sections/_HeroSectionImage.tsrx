@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'octane';
 import { cn } from '@/lib/utils';
+import type { ThemedBannerImage } from '@/lib/tsrx-props';
 
 const getDOMTheme = () =>
 	typeof document !== 'undefined' &&
@@ -7,7 +8,11 @@ const getDOMTheme = () =>
 		? 'dark'
 		: 'light';
 
-export function HeroSectionImage(props) @{
+export function HeroSectionImage(props: {
+	bannerImage: ThemedBannerImage;
+	bannerFallbackImage?: ThemedBannerImage;
+	bannerID: string;
+}) @{
 	const { bannerImage, bannerFallbackImage, bannerID } = props;
 	const [isError, setIsError] = useState(false);
 	const [domTheme, setDomTheme] = useState(() =>

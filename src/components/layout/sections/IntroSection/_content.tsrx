@@ -1,4 +1,5 @@
 import { AnimatedGradientText } from '@/components/animated/animated-grad-text.tsrx';
+import type { FlattenedExperience } from '@/data/queries';
 
 export function AnimatedIntroSection1() @{
 	<AnimatedGradientText
@@ -8,7 +9,11 @@ export function AnimatedIntroSection1() @{
 	/>
 }
 
-export function AnimatedIntroSection2(props) @{
+type IntroExperienceProps = {
+	latestExperience?: FlattenedExperience | null;
+};
+
+export function AnimatedIntroSection2(props: IntroExperienceProps) @{
 	const { latestExperience } = props;
 	<AnimatedGradientText
 		variant="span"
@@ -17,7 +22,7 @@ export function AnimatedIntroSection2(props) @{
 	/>
 }
 
-export function AnimatedIntroSection3(props) @{
+export function AnimatedIntroSection3(props: IntroExperienceProps) @{
 	const { latestExperience } = props;
 	<AnimatedGradientText
 		variant="span"

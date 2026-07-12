@@ -29,6 +29,7 @@ Thumbs.db
 .idea/
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json
 
 # typescript
 *.tsbuildinfo
@@ -42,3 +43,27 @@ dev-dist/
 # local tooling caches
 .turbo/
 .cache/
+.tsrx-check/
+
+# octane monorepo clone (preinstall sync); keep install stubs tracked
+vendor/octane/*
+!vendor/octane/packages/
+vendor/octane/packages/*
+!vendor/octane/packages/octane/
+!vendor/octane/packages/vite-plugin-octane/
+!vendor/octane/packages/adapter-vercel/
+!vendor/octane/packages/tanstack-router/
+!vendor/octane/packages/motion/
+!vendor/octane/packages/radix/
+!vendor/octane/packages/floating-ui/
+!vendor/octane/packages/testing-library/
+vendor/octane/packages/*/*
+!vendor/octane/packages/octane/package.json
+!vendor/octane/packages/vite-plugin-octane/package.json
+!vendor/octane/packages/adapter-vercel/package.json
+!vendor/octane/packages/tanstack-router/package.json
+!vendor/octane/packages/motion/package.json
+!vendor/octane/packages/radix/package.json
+!vendor/octane/packages/floating-ui/package.json
+!vendor/octane/packages/testing-library/package.json
+vendor/.octane-ref

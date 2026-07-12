@@ -12,7 +12,11 @@ const PILL_ICON =
 
 type TechItem = (typeof usedTechnologies)[number];
 
-function TechLogoLi(props) @{
+type TechLogoLiProps = {
+	item: TechItem;
+};
+
+function TechLogoLi(props: TechLogoLiProps) @{
 	const { item } = props;
 	const isTwLogo = item.name === 'Tailwind CSS';
 	const lightLogo = isTwLogo;
@@ -56,7 +60,13 @@ function TechLogoLi(props) @{
 	</li>
 }
 
-export function InfiniteMovingCardsTechUsed(props) @{
+export function InfiniteMovingCardsTechUsed(props: {
+	items: readonly TechItem[];
+	direction?: 'left' | 'right';
+	speed?: 'fast' | 'normal' | 'slow';
+	pauseOnHover?: boolean;
+	className?: string;
+}) @{
 	const {
 		items,
 		direction = 'left',
@@ -66,7 +76,7 @@ export function InfiniteMovingCardsTechUsed(props) @{
 	} = props;
 	const listRef = useRef<HTMLUListElement>(null);
 	const marqueeItems = MARQUEE_PASSES.flatMap((pass) =>
-		items.map((item) => ({ key: `${item.name}-p${pass}`, item })),
+		items.map((item: TechItem) => ({ key: `${item.name}-p${pass}`, item })),
 	);
 
 	useLayoutEffect(() => {

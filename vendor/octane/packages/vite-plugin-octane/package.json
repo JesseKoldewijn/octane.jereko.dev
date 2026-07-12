@@ -1,0 +1,6 @@
+{
+	"name": "@octanejs/vite-plugin",
+	"version": "0.0.0-stub",
+	"private": true,
+	"type": "module"
+}

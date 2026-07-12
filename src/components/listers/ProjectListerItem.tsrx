@@ -1,10 +1,11 @@
 import { LuMouse } from '@/icons/lu/Mouse';
 import { Card } from '@/components/ui/card.tsrx';
+import type { Project } from '@/data/projects';
 
-function ProjectCardBody(props) @{
+function ProjectCardBody(props: { project: Project }) @{
 	const { project } = props;
 	const tags = (project.tags ?? '').split(',').filter(Boolean);
-	const tagItems = tags.map((tag, index) => ({
+	const tagItems = tags.map((tag: string, index: number) => ({
 		key: `${project.title}-${tag}-${index}`,
 		label: tag.trim(),
 	}));
@@ -38,7 +39,7 @@ function ProjectCardBody(props) @{
 	</Card>
 }
 
-export function ProjectListerItem(props) @{
+export function ProjectListerItem(props: { project: Project }) @{
 	const { project } = props;
 
 	@if (String(project.draft) === 'true') {

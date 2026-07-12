@@ -6,7 +6,20 @@
 		"browser": true,
 		"node": true
 	},
-	"ignorePatterns": ["dist/**", ".vercel/**", "node_modules/**", "coverage/**", "public/**"],
+	"options": {
+		"typeAware": true,
+		"typeCheck": true
+	},
+	"ignorePatterns": [
+		"dist/**",
+		".vercel/**",
+		".tsrx-check/**",
+		"node_modules/**",
+		"coverage/**",
+		"public/**",
+		"vendor/**",
+		"scripts/**"
+	],
 	"rules": {
 		"no-debugger": "error",
 		"no-unused-vars": "error",
@@ -14,6 +27,14 @@
 		"@typescript-eslint/no-explicit-any": "warn",
 		"@typescript-eslint/no-require-imports": "error",
 		"react-hooks/rules-of-hooks": "error",
-		"react-hooks/exhaustive-deps": "warn"
+		"react-hooks/exhaustive-deps": "warn",
+		"typescript/no-explicit-any": "warn",
+		"typescript/no-floating-promises": "error",
+		"typescript/no-misused-promises": "error",
+		"typescript/no-unsafe-argument": "warn",
+		"typescript/no-unsafe-assignment": "warn",
+		"typescript/no-unsafe-call": "warn",
+		"typescript/no-unsafe-member-access": "warn",
+		"typescript/no-unsafe-return": "warn"
 	}
 }

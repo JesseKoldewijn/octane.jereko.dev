@@ -1,10 +1,16 @@
 import { AnimatedGradientText } from '@/components/animated/animated-grad-text.tsrx';
 import { TextGen } from '@/components/animated/text-gen-dynamic';
 import { cn } from '@/lib/utils';
+import type { HeroBannerContent, ThemedBannerImage } from '@/lib/tsrx-props';
 import { HeroSectionButtons } from './_HeroSectionButtons.tsrx';
 import { HeroSectionImage } from './_HeroSectionImage.tsrx';
 
-export function HeroSection(props) @{
+export function HeroSection(props: {
+	bannerImage: ThemedBannerImage;
+	bannerFallbackImage?: ThemedBannerImage;
+	bannerContent: HeroBannerContent;
+	className?: string;
+}) @{
 	const { bannerImage, bannerFallbackImage, bannerContent, className } = props;
 	const bannerID =
 		'banner-image' + String(bannerContent.title).replace(' ', '-');
