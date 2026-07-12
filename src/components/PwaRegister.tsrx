@@ -1,7 +1,7 @@
 import { useEffect } from 'octane';
 import { unregisterAllServiceWorkers } from '@/lib/pwa-dev.ts';
 
-const PWA_MIGRATION_VERSION = 'navigate-fallback-offline-path-v2';
+const PWA_MIGRATION_VERSION = 'navigate-fallback-offline-html-v3';
 const PWA_MIGRATION_KEY = 'jereko-pwa-migration';
 
 let pwaClientInitStarted = false;

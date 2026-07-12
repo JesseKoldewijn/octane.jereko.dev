@@ -116,7 +116,7 @@ export default defineConfig(({ command }) => {
 								],
 							},
 							workbox: {
-								navigateFallback: '/offline',
+								navigateFallback: '/offline.html',
 								globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,avif,woff2}'],
 								globIgnores: ['**/404.html', '404.html'],
 								cleanupOutdatedCaches: true,
