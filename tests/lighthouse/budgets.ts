@@ -35,14 +35,14 @@ function networkRequestItems(lhr: Result): NetworkRequestItem[] {
 	return details.items as NetworkRequestItem[];
 }
 
-function assertNoDuplicateAppTransfers(lhr: Result): void {
+function assertNoDuplicateChunkTransfers(lhr: Result, chunkPattern: string, label: string): void {
 	const items = networkRequestItems(lhr);
 	const transfersByUrl = new Map<string, number>();
 
 	for (const item of items) {
 		const url = item.url ?? '';
 		const transferSize = item.transferSize ?? 0;
-		if (!url.includes('/assets/App-') || transferSize <= 0) continue;
+		if (!url.includes(chunkPattern) || transferSize <= 0) continue;
 		transfersByUrl.set(url, (transfersByUrl.get(url) ?? 0) + 1);
 	}
 
@@ -50,9 +50,17 @@ function assertNoDuplicateAppTransfers(lhr: Result): void {
 	if (duplicates.length > 0) {
 		const detail = duplicates.map(([url, count]) => `${url} (${count} transfers)`).join(', ');
 		throw new Error(
-			`App chunk double-fetch regression: multiple network transfers with bytes for ${detail}.`,
+			`${label} double-fetch regression: multiple network transfers with bytes for ${detail}.`,
 		);
 	}
+}
+
+function assertNoDuplicateAppTransfers(lhr: Result): void {
+	assertNoDuplicateChunkTransfers(lhr, '/assets/App-', 'App chunk');
+}
+
+function assertNoDuplicateFrameworkTransfers(lhr: Result): void {
+	assertNoDuplicateChunkTransfers(lhr, '/assets/framework-', 'Framework chunk');
 }
 
 export function assertPerformanceAudits(lhr: Result): void {
@@ -62,4 +70,5 @@ export function assertPerformanceAudits(lhr: Result): void {
 		'Render blocking',
 	);
 	assertNoDuplicateAppTransfers(lhr);
+	assertNoDuplicateFrameworkTransfers(lhr);
 }

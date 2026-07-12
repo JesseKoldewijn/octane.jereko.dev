@@ -1,3 +1,5 @@
+import { Workbox } from 'workbox-window';
+
 import { unregisterAllServiceWorkers } from '@/lib/pwa-dev.ts';
 
 export const APP_BUILD_ID_STORAGE_KEY = 'jereko-app-build-id';
@@ -81,25 +83,28 @@ async function safeServiceWorkerUpdate(registration: ServiceWorkerRegistration):
 export async function registerServiceWorkerWithAutoUpdate(): Promise<void> {
 	scheduleReloadOnServiceWorkerControlChange();
 
-	const { registerSW } = await import('virtual:pwa-register');
+	if (!('serviceWorker' in navigator)) return;
 
-	registerSW({
-		immediate: true,
-		onRegisterError() {
-			/* offline, blocked, or missing sw.js during deploy */
-		},
-		onRegisteredSW(_swScriptUrl, registration) {
-			if (!registration) return;
+	const workbox = new Workbox('/sw.js', { scope: '/' });
 
-			document.addEventListener('visibilitychange', () => {
-				if (document.visibilityState === 'visible') {
-					void safeServiceWorkerUpdate(registration);
-				}
-			});
-
-			window.setInterval(() => {
-				void safeServiceWorkerUpdate(registration);
-			}, SW_UPDATE_POLL_MS);
-		},
+	workbox.addEventListener('waiting', () => {
+		void workbox.messageSkipWaiting();
 	});
+
+	try {
+		const registration = await workbox.register();
+		if (!registration) return;
+
+		document.addEventListener('visibilitychange', () => {
+			if (document.visibilityState === 'visible') {
+				void safeServiceWorkerUpdate(registration);
+			}
+		});
+
+		window.setInterval(() => {
+			void safeServiceWorkerUpdate(registration);
+		}, SW_UPDATE_POLL_MS);
+	} catch {
+		/* offline, blocked, or missing sw.js during deploy */
+	}
 }

@@ -46,6 +46,19 @@ export default defineConfig(({ command }) => {
 		build: {
 			target: 'baseline-widely-available',
 			cssCodeSplit: false,
+			modulePreload: {
+				resolveDependencies(_filename, deps, context) {
+					if (context.hostType !== 'js') return deps;
+					// The hydrate entry already statically imports the framework chunk.
+					// Preloading it again for route chunks duplicates network work in Lighthouse.
+					return deps.filter(
+						(dep) =>
+							!dep.includes('/framework-') &&
+							!dep.includes('/framework.') &&
+							!dep.endsWith('/framework'),
+					);
+				},
+			},
 			rollupOptions: {
 				output: {
 					manualChunks(id) {

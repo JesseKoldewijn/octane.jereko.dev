@@ -54,6 +54,7 @@ const config = {
 		'motion',
 	],
 	ignoreExportsUsedInFile: true,
+	ignoreBinaries: ['act'],
 	ignoreIssues: {
 		'src/data/**': ['types'],
 		'src/data/navigation.ts': ['exports'],

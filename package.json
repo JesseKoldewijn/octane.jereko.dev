@@ -25,6 +25,7 @@
 		"test:component": "vitest run --project component",
 		"test:e2e": "vitest run --project e2e",
 		"test:perf": "vitest run --project e2e tests/e2e/performance.e2e.test.ts",
+		"lint:chunks": "bun -e \"import { assertHealthyClientChunkGraph } from './scripts/lib/chunk-graph.ts'; assertHealthyClientChunkGraph();\"",
 		"ci:act": "act push -j quality -P ubuntu-latest=catthehacker/ubuntu:act-latest --container-architecture linux/amd64 --env ACT=true",
 		"test:all": "bun run test && bun run test:e2e",
 		"test:watch": "vitest"
