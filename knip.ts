@@ -38,8 +38,6 @@ const config = {
 		'src/components/layout/Layout.tsrx',
 		'src/components/layout/SiteShellHead.tsrx',
 		'src/components/layout/navbar/NavbarPlaceholder.tsrx',
-		// Legacy duplicate assets; public/ is the runtime source of truth.
-		'src/images/**',
 		// Octane monorepo clone (preinstall sync); not part of this app.
 		'vendor/**',
 	],

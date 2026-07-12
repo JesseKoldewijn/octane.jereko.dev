@@ -98,7 +98,6 @@
 @source "../lib/pwa-dev.ts";
 @source "../lib/pwa-update.ts";
 @source "../lib/pwa-update.unit.test.ts";
-@source "../lib/schedule-idle.ts";
 @source "../lib/theme.ts";
 @source "../lib/theme.unit.test.ts";
 @source "../lib/tsrx-props.ts";
