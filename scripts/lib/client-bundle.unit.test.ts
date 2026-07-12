@@ -4,7 +4,12 @@ import { describe, expect, it } from 'vitest';
 
 const clientAssetsDir = path.join(process.cwd(), 'dist/client/assets');
 
-function readClientBundles(): { indexSource: string; appSource: string; indexFile: string; appFile: string } {
+function readClientBundles(): {
+	indexSource: string;
+	appSource: string;
+	indexFile: string;
+	appFile: string;
+} {
 	const indexFile = fs
 		.readdirSync(clientAssetsDir)
 		.find((name) => name.startsWith('index-') && name.endsWith('.js'));

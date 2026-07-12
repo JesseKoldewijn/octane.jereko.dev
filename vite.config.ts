@@ -49,10 +49,7 @@ export default defineConfig(({ command }) => {
 			rollupOptions: {
 				output: {
 					manualChunks(id) {
-						if (
-							id.includes('/node_modules/octane/') ||
-							id.includes('/node_modules/@octanejs/')
-						) {
+						if (id.includes('/node_modules/octane/') || id.includes('/node_modules/@octanejs/')) {
 							return 'framework';
 						}
 					},
