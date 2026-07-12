@@ -1,0 +1,17 @@
+{
+	"$schema": "./node_modules/oxfmt/configuration_schema.json",
+	"printWidth": 100,
+	"singleQuote": true,
+	"semi": true,
+	"useTabs": true,
+	"trailingComma": "all",
+	"ignorePatterns": [
+		"dist/**",
+		".vercel/**",
+		"node_modules/**",
+		"coverage/**",
+		"public/**",
+		"bun.lock",
+		"src/styles/globals.css"
+	]
+}

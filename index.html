@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#000" />
+		<link rel="shortcut icon" href="/favicons/favicon.ico" type="image/x-icon" />
+		<link
+			rel="preload"
+			href="/fonts/geist-sans/Geist-Variable.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin="anonymous"
+		/>
+		<link
+			rel="preload"
+			href="/fonts/geist-mono/GeistMono-Variable.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin="anonymous"
+		/>
+		<title>Jereko - My personal website | Jesse Koldewijn</title>
+		<script>
+			(function () {
+				function applyStoredTheme() {
+					const theme = localStorage.getItem('theme');
+					const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+					const resolved = theme === 'system' || !theme ? (systemDark ? 'dark' : 'light') : theme;
+					document.documentElement.classList.remove('light', 'dark');
+					document.documentElement.classList.add(resolved);
+				}
+				applyStoredTheme();
+
+				// Production SW must never intercept the Vite dev server.
+				var isLocalDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+				if (isLocalDev && 'serviceWorker' in navigator) {
+					navigator.serviceWorker.getRegistrations().then(function (regs) {
+						regs.forEach(function (reg) {
+							reg.unregister();
+						});
+					});
+					if ('caches' in window) {
+						caches.keys().then(function (keys) {
+							keys.forEach(function (key) {
+								if (key.indexOf('workbox') !== -1 || key.indexOf('precache') !== -1) {
+									caches.delete(key);
+								}
+							});
+						});
+					}
+				}
+			})();
+		</script>
+		<link rel="stylesheet" href="/src/styles/globals.css" />
+		<!--ssr-head-->
+	</head>
+	<body class="min-h-screen font-sans">
+		<div id="root"><!--ssr-body--></div>
+	</body>
+</html>

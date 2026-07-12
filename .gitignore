@@ -1,0 +1,44 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+.vercel/
+
+# vite / vitest
+.vite/
+coverage/
+
+# env
+.env
+.env.*
+!.env.example
+
+# logs
+*.log
+npm-debug.log*
+bun-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# typescript
+*.tsbuildinfo
+
+# misc
+*.pem
+
+# PWA dev artifacts
+dev-dist/
+
+# local tooling caches
+.turbo/
+.cache/

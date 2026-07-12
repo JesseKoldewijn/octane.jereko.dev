@@ -1,0 +1,19 @@
+{
+	"$schema": "./node_modules/oxlint/configuration_schema.json",
+	"plugins": ["typescript", "react"],
+	"env": {
+		"builtin": true,
+		"browser": true,
+		"node": true
+	},
+	"ignorePatterns": ["dist/**", ".vercel/**", "node_modules/**", "coverage/**", "public/**"],
+	"rules": {
+		"no-debugger": "error",
+		"no-unused-vars": "error",
+		"no-var": "error",
+		"@typescript-eslint/no-explicit-any": "warn",
+		"@typescript-eslint/no-require-imports": "error",
+		"react-hooks/rules-of-hooks": "error",
+		"react-hooks/exhaustive-deps": "warn"
+	}
+}
