@@ -1,6 +1,13 @@
 import { cn } from '@/lib/utils';
 
-export function ListItem(props) @{
+export function ListItem(props: {
+	class?: string;
+	className?: string;
+	title: string;
+	children: unknown;
+	ref?: unknown;
+	[key: string]: unknown;
+}) @{
 	const { class: classProp, className, title, children, ref, ...rest } = props;
 
 	<li class="list-none">

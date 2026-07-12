@@ -2,6 +2,7 @@ import { NavLink } from '@/components/NavLink.tsrx';
 import { HeroSection } from '@/components/layout/sections/HeroSection.tsrx';
 import { cn } from '@/lib/utils';
 import { testIds } from '@/testids';
+import type { ThemedBannerImage } from '@/lib/tsrx-props';
 
 const navItems = [
 	{ href: '/about-me', label: 'About Me' },
@@ -9,7 +10,12 @@ const navItems = [
 	{ href: '/about-me/volunteering', label: 'Volunteering' },
 ] as const;
 
-export function AboutMeHeader(props) @{
+export function AboutMeHeader(props: {
+	pathname: string;
+	bannerImage: ThemedBannerImage;
+	title: string;
+	description: string;
+}) @{
 	const { pathname, bannerImage, title, description } = props;
 
 	<div>

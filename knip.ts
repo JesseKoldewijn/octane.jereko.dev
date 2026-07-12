@@ -39,6 +39,8 @@ const config = {
 		'src/components/layout/navbar/NavbarPlaceholder.tsrx',
 		// Legacy duplicate assets; public/ is the runtime source of truth.
 		'src/images/**',
+		// Octane monorepo clone (preinstall sync); not part of this app.
+		'vendor/**',
 	],
 	ignoreDependencies: [
 		'@tailwindcss/typography',
@@ -47,6 +49,8 @@ const config = {
 		'platformicons',
 		'devalue',
 		'@octanejs/testing-library',
+		// Transitive via @octanejs/radix; listed so Bun links it for SSR bundling.
+		'@octanejs/floating-ui',
 		// Bundled separately from @octanejs/motion (see vite.config.ts ssr.external).
 		'motion',
 	],

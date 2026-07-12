@@ -2,7 +2,13 @@ import { useEffect } from 'octane';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton.tsrx';
 
-export function Embed(props) @{
+export function Embed(props: {
+	playerID: string;
+	youtubeVideoID: string;
+	srcUrl: string;
+	class?: string;
+	[key: string]: unknown;
+}) @{
 	const { playerID, youtubeVideoID, srcUrl, class: className, ...rest } = props;
 
 	const startShowing = () => {

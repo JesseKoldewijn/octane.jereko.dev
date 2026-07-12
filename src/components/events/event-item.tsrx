@@ -1,11 +1,16 @@
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton.tsrx';
 import { EventItemMedia } from './event-item-media.tsrx';
+import type { Event } from '@/data/events';
 
 const eventCardClass =
 	'bg-card text-card-foreground flex min-h-[18rem] flex-col items-center justify-center rounded-lg border shadow-xs bg-neutral-100 dark:bg-neutral-900';
 
-export function EventItem(props) @{
+export function EventItem(props: {
+	title?: string;
+	event?: Event | null;
+	isSkeleton?: boolean;
+}) @{
 	const { title, event, isSkeleton } = props;
 	const origin = typeof window === 'undefined' ? 'https://jereko.dev' : window.location.origin;
 	const eventDate =

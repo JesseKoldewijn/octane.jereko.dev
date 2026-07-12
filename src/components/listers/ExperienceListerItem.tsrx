@@ -1,11 +1,10 @@
-import {
-	isMultiRoleExperience,
-} from '@/data/experiences';
+import { isMultiRoleExperience } from '@/data/experiences';
+import type { Experience, ExperienceRole } from '@/data/experiences';
 
 const experienceCardClass =
 	'bg-card text-card-foreground w-full max-w-md rounded-lg border bg-neutral-100 p-5 shadow-xs dark:bg-neutral-900';
 
-function formatDateRange(role) {
+function formatDateRange(role: ExperienceRole | Experience) {
 	const startDate =
 		String(role.start_month) !== 'upcoming' &&
 		String(role.start_year) !== 'upcoming'
@@ -29,10 +28,10 @@ function formatDateRange(role) {
 	return `${startDate} - ${endDate}`;
 }
 
-function RoleBlock(props) @{
+function RoleBlock(props: { role: ExperienceRole; expKey: string }) @{
 	const { role, expKey } = props;
 	const skills = role.skills?.split(',') ?? [];
-	const skillTags = skills.map((skill) => ({
+	const skillTags = skills.map((skill: string) => ({
 		key: `${skill}-${expKey}`,
 		skill,
 	}));
@@ -53,10 +52,10 @@ function RoleBlock(props) @{
 	</div>
 }
 
-export function ExperienceListerItem(props) @{
+export function ExperienceListerItem(props: { experience: Experience }) @{
 	const { experience } = props;
 	const skills = experience.skills?.split(',') ?? [];
-	const skillTags = skills.map((skill) => ({
+	const skillTags = skills.map((skill: string) => ({
 		key: `${skill}-${experience.exp_key}`,
 		skill,
 	}));
