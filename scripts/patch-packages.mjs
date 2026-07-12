@@ -186,11 +186,21 @@ function isChildrenBlock(value) {
 	await writeFile(runtimeClientPath, runtimeClient);
 }
 
+const clientPatchedSymbols = ['isChildrenBlock', 'markChildrenBlock'];
+
 const clientIndexPath = path.join(dist, 'index.js');
 let clientIndex = await readFile(clientIndexPath, 'utf8');
-clientIndex = mergeExportNames(clientIndex, ['isChildrenBlock', 'markChildrenBlock']);
-if (clientIndex !== (await readFile(clientIndexPath, 'utf8'))) {
-	await writeFile(clientIndexPath, clientIndex);
+clientIndex = mergeImportNames(clientIndex, './runtime.js', clientPatchedSymbols);
+clientIndex = mergeExportNames(clientIndex, clientPatchedSymbols);
+await writeFile(clientIndexPath, clientIndex);
+
+if (
+	!clientIndex.includes('isChildrenBlock') ||
+	!/import\s*\{[\s\S]*isChildrenBlock[\s\S]*\}\s*from\s*"\.\/runtime\.js"/.test(clientIndex)
+) {
+	throw new Error(
+		'[patch-packages] Failed to patch octane/dist/index.js — isChildrenBlock import missing.',
+	);
 }
 
 // --- @octanejs/vite-plugin@0.1.3 — local overrides ---
@@ -308,3 +318,18 @@ await copyFile(
 console.log('[patch-packages] patched octane dist + @octanejs/vite-plugin');
 
 await import('./patch-vite-plugin-phase2.mjs');
+
+// Idempotent: skip server build when client build failed (no manifest).
+const viteIndexForCloseBundle = path.join(vitePluginDir, 'index.js');
+let viteIndexCloseBundle = await readFile(viteIndexForCloseBundle, 'utf8');
+const closeBundleSkip = '\t\t\t\t);\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tconst collectCss';
+if (
+	viteIndexCloseBundle.includes('Client manifest not found at') &&
+	!viteIndexCloseBundle.includes(closeBundleSkip)
+) {
+	viteIndexCloseBundle = viteIndexCloseBundle.replace(
+		'\t\t\t\t);\n\t\t\t}\n\n\t\t\tconst collectCss',
+		closeBundleSkip,
+	);
+	await writeFile(viteIndexForCloseBundle, viteIndexCloseBundle);
+}

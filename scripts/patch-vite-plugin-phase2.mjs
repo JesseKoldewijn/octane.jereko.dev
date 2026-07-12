@@ -227,6 +227,7 @@ if (!index.includes(MARKER)) {
 \t\t\t\t\t'[@octanejs/vite-plugin] Client manifest not found at',
 \t\t\t\t\tmanifestPath,
 \t\t\t\t);
+\t\t\t\treturn;
 \t\t\t}
 
 \t\t\tconst collectCss = (key, visited = new Set()) => {
