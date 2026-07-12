@@ -333,3 +333,23 @@ if (
 	);
 	await writeFile(viteIndexForCloseBundle, viteIndexCloseBundle);
 }
+
+// Idempotent: bundle npm deps into the server entry (Vercel has no node_modules).
+const viteIndexForSsrBundle = path.join(vitePluginDir, 'index.js');
+let viteIndexSsrBundle = await readFile(viteIndexForSsrBundle, 'utf8');
+if (
+	viteIndexSsrBundle.includes("external: ['@ripple-ts/adapter', '@octanejs/adapter-vercel']") &&
+	viteIndexSsrBundle.includes('noExternal: [],')
+) {
+	viteIndexSsrBundle = viteIndexSsrBundle.replace(
+		`ssr: {
+						external: ['@ripple-ts/adapter', '@octanejs/adapter-vercel'],
+						noExternal: [],
+					},`,
+		`ssr: {
+						// Self-contained bundle — Vercel functions ship dist/server only.
+						noExternal: true,
+					},`,
+	);
+	await writeFile(viteIndexForSsrBundle, viteIndexSsrBundle);
+}

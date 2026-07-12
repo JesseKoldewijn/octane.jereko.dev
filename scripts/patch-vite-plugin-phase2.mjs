@@ -337,8 +337,8 @@ if (!index.includes(MARKER)) {
 \t\t\t\t\t\t},
 \t\t\t\t\t},
 \t\t\t\t\tssr: {
-\t\t\t\t\t\texternal: ['@ripple-ts/adapter', '@octanejs/adapter-vercel'],
-\t\t\t\t\t\tnoExternal: [],
+\t\t\t\t\t\t// Self-contained bundle — Vercel functions ship dist/server only.
+\t\t\t\t\t\tnoExternal: true,
 \t\t\t\t\t},
 \t\t\t\t});
 
