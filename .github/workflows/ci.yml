@@ -13,6 +13,9 @@ concurrency:
 jobs:
   quality:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      statuses: write
 
     steps:
       - name: Checkout
@@ -43,3 +46,9 @@ jobs:
 
       - name: Knip
         run: bun run knip
+
+      - name: notify vercel
+        if: always()
+        uses: vercel/repository-dispatch/actions/status@v1
+        with:
+          name: 'Vercel - octane-jereko: lint'

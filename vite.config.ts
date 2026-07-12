@@ -16,6 +16,21 @@ function octaneServerAlias(): Plugin {
 	};
 }
 
+function clientOnlySsrStubs(): Plugin {
+	const textGenStub = path.resolve(__dirname, 'scripts/stubs/text-gen-ssr-stub.js');
+	return {
+		name: 'client-only-ssr-stubs',
+		enforce: 'pre',
+		resolveId(source, _importer, options) {
+			if (!options?.ssr) return null;
+			if (source.endsWith('text-gen.tsrx') || source.includes('animated/text-gen.tsrx')) {
+				return textGenStub;
+			}
+			return null;
+		},
+	};
+}
+
 export default defineConfig(({ command }) => {
 	const isDev = command === 'serve';
 
@@ -24,6 +39,7 @@ export default defineConfig(({ command }) => {
 		publicDir: 'public',
 		plugins: [
 			octaneServerAlias(),
+			clientOnlySsrStubs(),
 			tailwindcss(),
 			octane(),
 			...(isDev

@@ -97,6 +97,7 @@
 @source "../lib/pwa-dev.ts";
 @source "../lib/theme.ts";
 @source "../lib/theme.unit.test.ts";
+@source "../lib/tsrx-props.ts";
 @source "../lib/utils.ts";
 @source "../lib/utils.unit.test.ts";
 @source "../lib/video/_embed.tsrx";
