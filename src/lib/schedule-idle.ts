@@ -9,9 +9,3 @@ export function scheduleIdleTask(task: () => void): void {
 
 	setTimeout(task, 1);
 }
-
-export function prefersReducedMotion(): boolean {
-	return (
-		typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
-	);
-}
