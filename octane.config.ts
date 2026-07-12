@@ -21,6 +21,11 @@ type RenderRouteOptions = ConstructorParameters<typeof RenderRoute>[0] & {
 	status?: number;
 };
 
+/** preHydrate is supported at runtime; upstream OctaneConfigOptions types lag. */
+type RouterConfig = NonNullable<Parameters<typeof defineConfig>[0]['router']> & {
+	preHydrate?: string;
+};
+
 const ROUTES = [
 	'/',
 	'/projects',
@@ -44,5 +49,5 @@ export default defineConfig({
 			} as RenderRouteOptions),
 		],
 		preHydrate: '/src/app/router-client.ts',
-	},
+	} as RouterConfig,
 });
