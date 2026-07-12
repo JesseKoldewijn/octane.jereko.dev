@@ -20,7 +20,6 @@
 @source "../components/PwaRegister.tsrx";
 @source "../components/animated/animated-grad-text.tsrx";
 @source "../components/animated/moving-cards-tech-used.tsrx";
-@source "../components/animated/text-gen-dynamic.ts";
 @source "../components/animated/text-gen-fallback.tsrx";
 @source "../components/animated/text-gen-lazy.tsrx";
 @source "../components/animated/text-gen.tsrx";

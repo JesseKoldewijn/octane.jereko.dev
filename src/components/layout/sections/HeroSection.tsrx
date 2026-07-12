@@ -1,5 +1,5 @@
 import { AnimatedGradientText } from '@/components/animated/animated-grad-text.tsrx';
-import { TextGen } from '@/components/animated/text-gen-dynamic';
+import { TextGen } from '@/components/animated/text-gen-lazy.tsrx';
 import { cn } from '@/lib/utils';
 import type { HeroBannerContent, ThemedBannerImage } from '@/lib/tsrx-props';
 import { HeroSectionButtons } from './_HeroSectionButtons.tsrx';

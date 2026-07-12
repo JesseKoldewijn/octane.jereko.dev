@@ -58,25 +58,47 @@ export async function ensureBuildMatchesOrReload(): Promise<boolean> {
 
 const SW_UPDATE_POLL_MS = 60 * 60 * 1000;
 
+let controllerChangeReloadScheduled = false;
+
+function scheduleReloadOnServiceWorkerControlChange(): void {
+	if (controllerChangeReloadScheduled || !('serviceWorker' in navigator)) return;
+	controllerChangeReloadScheduled = true;
+
+	navigator.serviceWorker.addEventListener('controllerchange', () => {
+		window.location.reload();
+	});
+}
+
+async function safeServiceWorkerUpdate(registration: ServiceWorkerRegistration): Promise<void> {
+	try {
+		await registration.update();
+	} catch {
+		/* deploy window or stale registration — build-id check handles hard resets */
+	}
+}
+
 /** Register the production service worker and poll for updates. */
 export async function registerServiceWorkerWithAutoUpdate(): Promise<void> {
+	scheduleReloadOnServiceWorkerControlChange();
+
 	const { registerSW } = await import('virtual:pwa-register');
 
 	registerSW({
 		immediate: true,
+		onRegisterError() {
+			/* offline, blocked, or missing sw.js during deploy */
+		},
 		onRegisteredSW(_swScriptUrl, registration) {
 			if (!registration) return;
 
-			void registration.update();
-
 			document.addEventListener('visibilitychange', () => {
 				if (document.visibilityState === 'visible') {
-					void registration.update();
+					void safeServiceWorkerUpdate(registration);
 				}
 			});
 
 			window.setInterval(() => {
-				void registration.update();
+				void safeServiceWorkerUpdate(registration);
 			}, SW_UPDATE_POLL_MS);
 		},
 	});
