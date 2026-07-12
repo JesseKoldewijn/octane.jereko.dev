@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import {
 	allEvents,
@@ -82,6 +82,19 @@ describe('queries', () => {
 			expect(result).not.toBeNull();
 			expect(result?.name).toBe("Vercel Ship '25");
 			expect(result?.year).toBe('2025');
+		});
+
+		it('returns the most recent event when Date.parse fails (Safari/iOS)', () => {
+			const parseSpy = vi.spyOn(Date, 'parse').mockReturnValue(Number.NaN);
+			try {
+				const result = mostRecentEvent();
+				expect(result).not.toBeNull();
+				expect(result?.name).toBe("Vercel Ship '25");
+				expect(result?.year).toBe('2025');
+				expect('url' in result! && result?.url).toBeTruthy();
+			} finally {
+				parseSpy.mockRestore();
+			}
 		});
 	});
 });

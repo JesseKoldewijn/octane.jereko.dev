@@ -91,16 +91,19 @@ export function mostRecentExp(): FlattenedExperience | null {
 	return flattenExperience(mostRecent);
 }
 
+function getEventTimestamp(event: Event): number {
+	const year = Number.parseInt(event.year ?? '1970', 10);
+	const month = Number.parseInt(event.month ?? '1', 10) - 1;
+	const day = Number.parseInt(event.day ?? '1', 10);
+	return new Date(year, month, day).getTime();
+}
+
 export function mostRecentEvent(): Event | null {
 	const evts = allEvents();
 	if (!evts.length) return null;
 	return evts.reduce((prev, current) => {
-		const prevDate = Date.parse(
-			`${prev?.month ?? '01'}-${prev?.day ?? '01'}-${prev?.year ?? '1970'}`,
-		).toString();
-		const curDate = Date.parse(
-			`${current.month ?? '01'}-${current.day ?? '01'}-${current.year ?? '1970'}`,
-		).toString();
-		return Number(prevDate) > Number(curDate) ? prev : current;
-	}, evts[0]!);
+		const prevDate = getEventTimestamp(prev);
+		const curDate = getEventTimestamp(current);
+		return curDate > prevDate ? current : prev;
+	});
 }
