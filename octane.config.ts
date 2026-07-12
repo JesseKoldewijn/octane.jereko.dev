@@ -1,5 +1,6 @@
 import { defineConfig, RenderRoute, type Middleware } from '@octanejs/vite-plugin';
-import { vercel } from '@octanejs/adapter-vercel';
+
+import { PRERENDER_ROUTES } from './src/config/routes.ts';
 
 const warmRouter: Middleware = async (context, next) => {
 	const { warmServerRouter } = await import('./src/app/router-server.ts');
@@ -26,21 +27,12 @@ type RouterConfig = NonNullable<Parameters<typeof defineConfig>[0]['router']> & 
 	preHydrate?: string;
 };
 
-const ROUTES = [
-	'/',
-	'/projects',
-	'/experience',
-	'/about-me',
-	'/about-me/hobbies',
-	'/about-me/volunteering',
-	'/offline',
-] as const;
-
 export default defineConfig({
-	adapter: vercel(),
 	router: {
 		routes: [
-			...ROUTES.map((path) => new RenderRoute({ path, entry: ENTRY, before: [...routeBefore] })),
+			...PRERENDER_ROUTES.map(
+				(path) => new RenderRoute({ path, entry: ENTRY, before: [...routeBefore] }),
+			),
 			new RenderRoute({
 				path: '/*splat',
 				entry: ENTRY,

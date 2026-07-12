@@ -2,7 +2,7 @@
 	"name": "octane.jereko.dev",
 	"version": "0.0.1",
 	"private": true,
-	"description": "Jereko personal website — Octane SSR",
+	"description": "Jereko personal website — Octane SSG",
 	"license": "MIT",
 	"type": "module",
 	"scripts": {
@@ -11,8 +11,8 @@
 		"octane:sync": "node scripts/sync-octane-from-github.mjs",
 		"postinstall": "node scripts/generate-tailwind-sources.mjs",
 		"predev": "node scripts/generate-tailwind-sources.mjs && node scripts/fetch-external-images.mjs",
-		"build": "node scripts/generate-tailwind-sources.mjs && node scripts/fetch-external-images.mjs && node scripts/generate-sitemap.mjs && vite build && node scripts/adapt-vercel.mjs",
-		"preview": "node scripts/production-server.mjs",
+		"build": "node scripts/generate-tailwind-sources.mjs && node scripts/fetch-external-images.mjs && bun scripts/generate-sitemap.mjs && vite build && bun scripts/prerender-static.mjs && node scripts/adapt-vercel.mjs",
+		"preview": "node scripts/static-server.mjs",
 		"typecheck": "tsc --noEmit && node scripts/typecheck-tsrx.mjs",
 		"typecheck:tsrx": "node scripts/typecheck-tsrx.mjs",
 		"lint": "oxlint src tests vite.config.ts octane.config.ts vitest.config.ts env.d.ts octane-jsx.d.ts",
@@ -30,7 +30,6 @@
 		"test:watch": "vitest"
 	},
 	"dependencies": {
-		"@octanejs/adapter-vercel": "file:./vendor/octane/packages/adapter-vercel",
 		"@octanejs/floating-ui": "file:./vendor/octane/packages/floating-ui",
 		"@octanejs/motion": "file:./vendor/octane/packages/motion",
 		"@octanejs/radix": "file:./vendor/octane/packages/radix",

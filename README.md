@@ -1,6 +1,6 @@
 # octane.jereko.dev
 
-Personal website for [Jereko](https://jereko.dev), built with [Octane](https://octanejs.dev/), TypeScript, and Tailwind CSS v4. Deployed to Vercel via `@octanejs/adapter-vercel`.
+Personal website for [Jereko](https://jereko.dev), built with [Octane](https://octanejs.dev/), TypeScript, and Tailwind CSS v4. Deployed to Vercel as a static site (SSG).
 
 ## Requirements
 
@@ -17,8 +17,8 @@ bun run dev
 | Command                    | Description                                                          |
 | -------------------------- | -------------------------------------------------------------------- |
 | `bun run dev`              | Start the Vite dev server with SSR                                   |
-| `bun run build`            | Production build (assets, sitemap, Vercel output)                    |
-| `bun run preview`          | Preview the production build locally                                 |
+| `bun run build`            | Production build (prerender HTML, static Vercel output)              |
+| `bun run preview`          | Preview the prerendered static build locally                         |
 | `bun run octane:sync`      | Refresh the vendored Octane monorepo from GitHub                     |
 | `bun run typecheck`        | Type-check `.ts`/`.tsx` (tsc) and `.tsrx` (Octane Volar pipeline)    |
 | `bun run typecheck:tsrx`   | Type-check `.tsrx` components only                                   |
@@ -26,7 +26,7 @@ bun run dev
 | `bun run test:unit`        | Run unit tests only                                                  |
 | `bun run test:integration` | Run integration tests only                                           |
 | `bun run test:component`   | Run component tests (Octane Testing Library)                         |
-| `bun run test:e2e`         | Run e2e tests (SSR via production server or Vite dev fallback)       |
+| `bun run test:e2e`         | Run e2e tests (static server or Vite dev fallback)                   |
 | `bun run test:all`         | Run every test suite including e2e                                   |
 | `bun run test:watch`       | Run tests in watch mode                                              |
 | `bun run lint`             | Run Oxlint with type-aware rules and TypeScript diagnostics          |
@@ -47,9 +47,10 @@ Linting uses **Oxlint type-aware mode** (`oxlint-tsgolint`) for `.ts`/`.tsx` —
 - `src/app/` — Octane app shell and router client
 - `src/pages/` — Route pages (`.tsrx`)
 - `src/components/` — UI components
+- `src/config/` — Shared route list, page meta, and site config
 - `src/data/` — Static site content
 - `public/` — Static assets
-- `scripts/` — Build-time helpers (Octane sync, Tailwind sources, sitemap, Vercel adapt)
+- `scripts/` — Build-time helpers (Octane sync, Tailwind sources, sitemap, prerender, Vercel adapt)
 - `tests/` — Shared test setup and e2e specs
 
 ## Testing
@@ -61,9 +62,9 @@ Vitest runs four projects:
 | Unit        | `src/**/*.unit.test.ts`        | Pure functions, data queries, config helpers      |
 | Integration | `src/**/*.integration.test.ts` | Routing, SSR middleware, server router cache      |
 | Component   | `src/**/*.component.test.tsx`  | Octane components via `@octanejs/testing-library` |
-| E2E         | `tests/e2e/**/*.e2e.test.ts`   | Full SSR responses from the production server     |
+| E2E         | `tests/e2e/**/*.e2e.test.ts`   | Prerendered HTML responses from the static server |
 
-E2E tests start a local SSR server automatically. When `dist/server/entry.js` exists (future Octane production server bundle), that entry is used; otherwise the Vite dev server is started for SSR route checks.
+E2E tests start a local static file server when `dist/client/index.html` exists; otherwise the Vite dev server is used for route checks.
 
 Interactive component tests use `data-testid` selectors defined in `src/testids.ts`. Prefer `byTestId()` from `@tests/setup/test-utils` over role/text/class queries.
 

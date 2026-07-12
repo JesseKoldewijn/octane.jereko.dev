@@ -75,6 +75,7 @@
 @source "../config/images.ts";
 @source "../config/meta.ts";
 @source "../config/meta.unit.test.ts";
+@source "../config/routes.ts";
 @source "../config/tech.tsx";
 @source "../data/events.ts";
 @source "../data/experiences.ts";
