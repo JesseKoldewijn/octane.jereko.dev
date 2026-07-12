@@ -14,7 +14,7 @@ const imagesDir = join(root, 'public/images');
 const techIconsDir = join(imagesDir, 'technologies');
 const outDir = join(imagesDir, 'external/youtube');
 
-const YOUTUBE_THUMB = (id) => `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+const YOUTUBE_THUMB = (id) => `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
 
 /** Static assets mirrored from production jereko.dev */
 const STATIC_IMAGES = [

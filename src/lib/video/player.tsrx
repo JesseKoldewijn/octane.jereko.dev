@@ -16,7 +16,7 @@ export function YoutubePlayer(props: { url: string; origin: string; key?: string
 	const playerID = `youtube-player-[${youtubeVideoID}]${key !== undefined ? `-${key}` : ''}`;
 	const srcUrl = `https://www.youtube.com/embed/${youtubeVideoID}?autoplay=1&mute=1&enablejsapi=0&controls=0&origin=${origin}`;
 	const localThumbnailSrc = `/images/external/youtube/${youtubeVideoID}.jpg`;
-	const remoteThumbnailSrc = `https://img.youtube.com/vi/${youtubeVideoID}/hqdefault.jpg`;
+	const remoteThumbnailSrc = `https://img.youtube.com/vi/${youtubeVideoID}/mqdefault.jpg`;
 
 	<div key={playerID} class="mx-auto my-auto flex flex-1">
 		<div
@@ -37,6 +37,10 @@ export function YoutubePlayer(props: { url: string; origin: string; key?: string
 					<img
 						class="mx-auto aspect-video h-full max-h-[182px] w-full max-w-[322px] object-cover"
 						src={localThumbnailSrc}
+						width={322}
+						height={182}
+						sizes="(max-width: 440px) 100vw, 322px"
+						loading="lazy"
 						alt="video thumbnail"
 						onError={(e) => {
 							const el = e.currentTarget;

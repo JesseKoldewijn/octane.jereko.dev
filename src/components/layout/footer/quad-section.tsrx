@@ -63,6 +63,9 @@ export function QuadSection() @{
 				<img
 					alt="Profile picture of Jesse Koldewijn"
 					src={avatarSrc}
+					width={96}
+					height={96}
+					sizes="96px"
 					loading="lazy"
 					class="absolute aspect-square rounded-full"
 				/>

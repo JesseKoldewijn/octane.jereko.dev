@@ -15,6 +15,19 @@ const clientDir = join(root, 'dist/client');
 const serverEntry = join(root, 'dist/server/entry.js');
 const ORIGIN = 'http://127.0.0.1';
 
+/** Remove duplicate stylesheet links (Vite index.html + ssr-head injection). */
+function dedupeStylesheetLinks(html) {
+	const seen = new Set();
+	return html.replace(/<link\b[^>]*\brel=["']stylesheet["'][^>]*>/gi, (tag) => {
+		const hrefMatch = tag.match(/\bhref=["']([^"']+)["']/i);
+		if (!hrefMatch) return tag;
+		const href = hrefMatch[1];
+		if (seen.has(href)) return '';
+		seen.add(href);
+		return tag;
+	});
+}
+
 const { handler } = await import(serverEntry);
 
 /**
@@ -22,7 +35,8 @@ const { handler } = await import(serverEntry);
  */
 async function prerenderRoute(routePath) {
 	const response = await handler(new Request(`${ORIGIN}${routePath}`));
-	const html = await response.text();
+	let html = await response.text();
+	html = dedupeStylesheetLinks(html);
 
 	if (response.status !== 200) {
 		throw new Error(
@@ -41,7 +55,8 @@ async function prerenderRoute(routePath) {
  */
 async function prerenderToFile(routePath, outFile, expectedStatus) {
 	const response = await handler(new Request(`${ORIGIN}${routePath}`));
-	const html = await response.text();
+	let html = await response.text();
+	html = dedupeStylesheetLinks(html);
 
 	if (response.status !== expectedStatus) {
 		throw new Error(

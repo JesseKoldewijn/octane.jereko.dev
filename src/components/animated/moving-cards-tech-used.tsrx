@@ -54,7 +54,7 @@ function TechLogoLi(props: TechLogoLiProps) @{
 			src={iconSrc}
 			width={isPillLogo ? 160 : 80}
 			height={80}
-			loading="eager"
+			loading="lazy"
 			decoding="async"
 		/>
 	</li>

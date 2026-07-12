@@ -96,6 +96,7 @@
 @source "../icons/lu/Play.tsx";
 @source "../icons/lu/User.tsx";
 @source "../lib/pwa-dev.ts";
+@source "../lib/schedule-idle.ts";
 @source "../lib/theme.ts";
 @source "../lib/theme.unit.test.ts";
 @source "../lib/tsrx-props.ts";
@@ -133,14 +134,6 @@
   font-display: swap;
 }
 
-@font-face {
-  font-family: "Geist Mono";
-  src: url("/fonts/geist-mono/GeistMono-Variable.woff2") format("woff2");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-
 /*
   Inline theme — utility classes reference the design-system CSS vars directly.
   e.g. `bg-primary` compiles to `background-color: var(--primary)`.
@@ -148,7 +141,7 @@
 @theme inline {
   /* Typography */
   --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "Geist Mono", ui-monospace, monospace;
+  --font-mono: ui-monospace, monospace;
 
   /* Custom breakpoint */
   --breakpoint-xs: 440px;
