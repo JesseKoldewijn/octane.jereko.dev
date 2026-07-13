@@ -1,5 +1,5 @@
 import { cva } from 'class-variance-authority';
-import { NavigationMenu as NavigationMenuPrimitive } from '@octanejs/radix';
+import { Popover } from '@octanejs/base-ui';
 import { LuChevronDown } from '@/icons/lu/ChevronDown';
 import { cn } from '@/lib/utils';
 import type { ClassNameSlotProps } from '@/lib/tsrx-props';
@@ -10,7 +10,7 @@ export const navigationMenuTriggerStyle = cva(
 
 export function NavigationMenu(props: ClassNameSlotProps) @{
 	const { className, ref, children, ...rest } = props;
-	<NavigationMenuPrimitive.Root
+	<nav
 		ref={ref}
 		className={cn(
 			'relative z-50 flex max-w-max flex-1 items-center justify-center overflow-visible',
@@ -19,12 +19,12 @@ export function NavigationMenu(props: ClassNameSlotProps) @{
 		{...rest}
 	>
 		{children}
-	</NavigationMenuPrimitive.Root>
+	</nav>
 }
 
 export function NavigationMenuList(props: ClassNameSlotProps) @{
 	const { className, ref, children, ...rest } = props;
-	<NavigationMenuPrimitive.List
+	<ul
 		ref={ref}
 		className={cn(
 			'group flex flex-1 list-none items-center justify-center space-x-1',
@@ -33,14 +33,19 @@ export function NavigationMenuList(props: ClassNameSlotProps) @{
 		{...rest}
 	>
 		{children}
-	</NavigationMenuPrimitive.List>
+	</ul>
 }
 
-export const NavigationMenuItem = NavigationMenuPrimitive.Item;
+export function NavigationMenuItem(props: ClassNameSlotProps) @{
+	const { className, ref, children, ...rest } = props;
+	<li ref={ref} className={cn('relative list-none', className)} {...rest}>
+		<Popover.Root>{children}</Popover.Root>
+	</li>
+}
 
 export function NavigationMenuTrigger(props: ClassNameSlotProps) @{
 	const { className, ref, children, ...rest } = props;
-	<NavigationMenuPrimitive.Trigger
+	<Popover.Trigger
 		ref={ref}
 		className={cn(navigationMenuTriggerStyle(), 'group', className)}
 		{...rest}
@@ -50,42 +55,59 @@ export function NavigationMenuTrigger(props: ClassNameSlotProps) @{
 			className="relative top-[1px] ml-1 h-3 w-3 transition duration-200 group-data-[state=open]:rotate-180"
 			{...{ 'aria-hidden': 'true' }}
 		/>
-	</NavigationMenuPrimitive.Trigger>
+	</Popover.Trigger>
 }
 
 export function NavigationMenuContent(props: ClassNameSlotProps) @{
 	const { className, ref, children, ...rest } = props;
-	<NavigationMenuPrimitive.Content
+	<Popover.Portal>
+		<Popover.Positioner side="bottom" align="start" sideOffset={6}>
+			<Popover.Popup
+				ref={ref}
+				className={cn(
+					'outline-none',
+					'rounded-md border bg-popover text-popover-foreground shadow-lg',
+					'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90',
+					'w-full md:w-auto',
+					className,
+				)}
+				{...rest}
+			>
+				{children}
+			</Popover.Popup>
+		</Popover.Positioner>
+	</Popover.Portal>
+}
+
+export function NavigationMenuLink(
+	props: ClassNameSlotProps & { href?: string; to?: string; onClick?: (event: MouseEvent) => void },
+) @{
+	const { className, ref, children, href, to, ...rest } = props;
+	<a
 		ref={ref}
-		className={cn(
-			'data-[motion^=from-]:animate-in data-[motion^=to-]:animate-out data-[motion^=from-]:fade-in data-[motion^=to-]:fade-out data-[motion=from-end]:slide-in-from-right-52 data-[motion=from-start]:slide-in-from-left-52 data-[motion=to-end]:slide-out-to-right-52 data-[motion=to-start]:slide-out-to-left-52 top-full left-0 z-50 w-full md:absolute md:w-auto',
-			className,
-		)}
+		href={href ?? to}
+		className={cn('block select-none rounded-sm px-3 py-2 text-sm leading-none', className)}
 		{...rest}
 	>
 		{children}
-	</NavigationMenuPrimitive.Content>
+	</a>
 }
-
-export const NavigationMenuLink = NavigationMenuPrimitive.Link;
 
 export function NavigationMenuViewport(props: ClassNameSlotProps) @{
 	const { className, ref, ...rest } = props;
-	<div className={cn('absolute top-full left-0 flex justify-center')}>
-		<NavigationMenuPrimitive.Viewport
-			className={cn(
-				'origin-top-center bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90 relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded-md border shadow-lg md:w-[var(--radix-navigation-menu-viewport-width)]',
-				className,
-			)}
-			ref={ref}
-			{...rest}
-		/>
-	</div>
+	<div
+		ref={ref}
+		className={cn(
+			'origin-top-center relative mt-1.5 w-full overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-lg md:w-auto',
+			className,
+		)}
+		{...rest}
+	/>
 }
 
 export function NavigationMenuIndicator(props: ClassNameSlotProps) @{
 	const { className, ref, children, ...rest } = props;
-	<NavigationMenuPrimitive.Indicator
+	<div
 		ref={ref}
 		className={cn(
 			'data-[state=visible]:animate-in data-[state=hidden]:animate-out data-[state=hidden]:fade-out data-[state=visible]:fade-in top-full z-[1] flex h-1.5 items-end justify-center overflow-hidden',
@@ -94,5 +116,6 @@ export function NavigationMenuIndicator(props: ClassNameSlotProps) @{
 		{...rest}
 	>
 		<div className="bg-border relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm shadow-md" />
-	</NavigationMenuPrimitive.Indicator>
+		{children}
+	</div>
 }

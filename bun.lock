@@ -5,9 +5,8 @@
     "": {
       "name": "octane.jereko.dev",
       "dependencies": {
-        "@octanejs/floating-ui": "0.1.3",
+        "@octanejs/base-ui": "^0.1.3",
         "@octanejs/motion": "0.1.3",
-        "@octanejs/radix": "0.1.3",
         "@octanejs/tanstack-router": "0.1.3",
         "@octanejs/vite-plugin": "0.1.4",
         "class-variance-authority": "^0.7.1",
@@ -318,11 +317,11 @@
 
     "@noble/hashes": ["@noble/hashes@2.2.0", "", {}, "sha512-IYqDGiTXab6FniAgnSdZwgWbomxpy9FtYvLKs7wCUs2a8RkITG+DFGO1DM9cr+E3/RgADRpFjrKVaJ1z6sjtEg=="],
 
-    "@octanejs/floating-ui": ["@octanejs/floating-ui@0.1.3", "", { "dependencies": { "@floating-ui/dom": "^1.7.0", "@floating-ui/utils": "^0.2.11", "octane": "0.1.4", "tabbable": "^6.5.0" } }, "sha512-rgAaZ9pfgpNVQMGPRbsZnoNvDtwjlAuS3HxXkjbW0UqvDsrd6ya2BtRC9hdGrSEFiwO7fC+nuju3xUKQmid5cw=="],
+    "@octanejs/base-ui": ["@octanejs/base-ui@0.1.3", "", { "dependencies": { "@floating-ui/utils": "^0.2.11", "@octanejs/floating-ui": "0.1.4", "aria-hidden": "^1.2.6", "octane": "0.1.5", "tabbable": "^6.5.0" } }, "sha512-0hL7aoDO086tRHkAhUm4WrBNAXrqyq1ZyviYRcPBzKEk4ozuJHhnIH03wVHhmj7blNAc9hzJXuD3rmaaYbfe1A=="],
+
+    "@octanejs/floating-ui": ["@octanejs/floating-ui@0.1.4", "", { "dependencies": { "@floating-ui/dom": "^1.7.0", "@floating-ui/utils": "^0.2.11", "octane": "0.1.5", "tabbable": "^6.5.0" } }, "sha512-3rgS+tmp/yNIbeR/WT3ffSmD7iKGYW3BJavtjDhjEeXAVnCeVZ28BAVAtUWK75ifu6quwuEL9gd8HzF9WlXsjA=="],
 
     "@octanejs/motion": ["@octanejs/motion@0.1.3", "", { "dependencies": { "motion": "^12.0.0", "octane": "0.1.4" } }, "sha512-4jj62hOSgFGDUqqmPSnT/0YiQ+V84lFergpYh7VM8hfAaeaeYe11ZHEL6FXd5lv+cnPQ90+0Fir68WPe8w0z3w=="],
-
-    "@octanejs/radix": ["@octanejs/radix@0.1.3", "", { "dependencies": { "@octanejs/floating-ui": "0.1.3", "aria-hidden": "^1.2.6", "octane": "0.1.4" } }, "sha512-op21WkKZN+rgDsU3e6kscMMyXYBNQKj5uaIQinJcVvtGpczlPq/aZC3GTtH9P4db8J3zp8L4XeF42nuBRqr4rw=="],
 
     "@octanejs/tanstack-router": ["@octanejs/tanstack-router@0.1.3", "", { "dependencies": { "@tanstack/history": "1.162.0", "@tanstack/router-core": "1.171.13", "@tanstack/store": "^0.9.3", "octane": "0.1.4" } }, "sha512-xGpGqisZ+CRyB7EElAgu2rI4RwjvxqdulPeooOAt9UNJxpIWbl4q1D1t2JMinWYZmRfwOxfGA8m86mDLpjWX0g=="],
 
@@ -1587,6 +1586,10 @@
     "@babel/helper-create-regexp-features-plugin/semver": ["semver@6.3.1", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA=="],
 
     "@babel/preset-env/semver": ["semver@6.3.1", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA=="],
+
+    "@octanejs/base-ui/octane": ["octane@0.1.5", "", { "dependencies": { "@tsrx/core": "^0.1.37", "devalue": "^5.8.1", "esrap": "^2.2.9" } }, "sha512-lqVMvbl3PTZ6xPnwrGp+i6z04BKIvtaENOevoRFIaoS7UQoXAbd94z2Ws15Um9gGj4ps+K4Djr/3eARV0BuhOA=="],
+
+    "@octanejs/floating-ui/octane": ["octane@0.1.5", "", { "dependencies": { "@tsrx/core": "^0.1.37", "devalue": "^5.8.1", "esrap": "^2.2.9" } }, "sha512-lqVMvbl3PTZ6xPnwrGp+i6z04BKIvtaENOevoRFIaoS7UQoXAbd94z2Ws15Um9gGj4ps+K4Djr/3eARV0BuhOA=="],
 
     "@opentelemetry/core/@opentelemetry/semantic-conventions": ["@opentelemetry/semantic-conventions@1.28.0", "", {}, "sha512-lp4qAiMTD4sNWW4DbKLBkfiMZ4jbAboJIGOQr5DvciMRI494OapieI9qiODpOt0XBr1LjIDy1xAGAnVs5supTA=="],
 

@@ -5,6 +5,7 @@ import path from 'node:path';
 
 import { appBuildIdPlugin, resolveAppBuildId } from './vite/plugins/app-build-id.ts';
 import { clientOnlySsrStubs } from './vite/plugins/client-only-ssr-stubs.ts';
+import { earlyGlobalCss } from './vite/plugins/early-global-css.ts';
 import { createPwaPlugin } from './vite/plugins/pwa.ts';
 import { octaneServerAlias } from './vite/plugins/octane-server-alias.ts';
 
@@ -19,6 +20,7 @@ export default defineConfig(({ command }) => {
 			octaneServerAlias(),
 			clientOnlySsrStubs(),
 			appBuildIdPlugin(appBuildId, isDev),
+			...earlyGlobalCss(),
 			tailwindcss(),
 			octane(),
 			...(isDev ? [] : [createPwaPlugin()]),

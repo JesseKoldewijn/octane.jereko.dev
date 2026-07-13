@@ -280,21 +280,27 @@ src/
 
 When implementing functionality that maps to a well-known React library, **use the Octane binding** — do not install the React package or write a custom wrapper.
 
-| Need                  | Use                                                            |
-| --------------------- | -------------------------------------------------------------- |
-| Global state          | `@octanejs/zustand`                                            |
-| Server/async state    | `@octanejs/tanstack-query`                                     |
-| Routing               | `@octanejs/tanstack-router` or `@octanejs/vite-plugin` routing |
-| Animation             | `@octanejs/motion`                                             |
-| Atomic CSS (StyleX)   | `@octanejs/stylex`                                             |
-| Rich text             | `@octanejs/lexical`                                            |
-| Tooltips / popovers   | `@octanejs/floating-ui`                                        |
-| Accessible primitives | `@octanejs/radix` or `@octanejs/base-ui`                       |
-| Charts                | `@octanejs/recharts`                                           |
-| MDX                   | `@octanejs/mdx`                                                |
-| Testing               | `@octanejs/testing-library`                                    |
+**Authoritative binding list:** [octanejs/octane — bindings status](https://github.com/octanejs/octane/blob/main/docs/bindings-status.md) (auto-generated from each package's `status.json`; CI keeps it in sync). Check this table before adding or migrating bindings — it lists supported surface, maturity, and known divergences per package.
+
+**Verify installed packages in this repo:** read [`package.json`](package.json) and [`bun.lock`](bun.lock). Do not rely on public registry search alone — some bindings are new or versioned independently of upstream React packages.
+
+| Need                  | Use                                                                                               |
+| --------------------- | ------------------------------------------------------------------------------------------------- |
+| Global state          | `@octanejs/zustand`                                                                               |
+| Server/async state    | `@octanejs/tanstack-query`                                                                        |
+| Routing               | `@octanejs/tanstack-router` or `@octanejs/vite-plugin` routing                                    |
+| Animation             | `@octanejs/motion`                                                                                |
+| Atomic CSS (StyleX)   | `@octanejs/stylex`                                                                                |
+| Rich text             | `@octanejs/lexical`                                                                               |
+| Accessible primitives | `@octanejs/base-ui` (preferred; alpha, in progress)                                               |
+| Low-level positioning | `@octanejs/floating-ui` (transitive via base-ui; add direct dep only if SSR bundling requires it) |
+| Charts                | `@octanejs/recharts`                                                                              |
+| MDX                   | `@octanejs/mdx`                                                                                   |
+| Testing               | `@octanejs/testing-library`                                                                       |
 
 Import path change is usually the only migration step (e.g. `@tanstack/react-query` → `@octanejs/tanstack-query`).
+
+This project uses `@octanejs/base-ui` for headless UI primitives (e.g. `Popover` in [`src/components/ui/navigation-menu.tsrx`](src/components/ui/navigation-menu.tsrx)). `@octanejs/radix` is not a dependency here — prefer base-ui for new work; see the bindings status table for which components are ported.
 
 ---
 
@@ -338,6 +344,7 @@ Add tests when they cover meaningful behavior — not for trivial pass-through w
 ## Agent Workflow
 
 1. Fetch https://octanejs.dev/llms.txt before Octane UI work; re-fetch when API or binding questions come up.
-2. Inspect surrounding code before adding new patterns.
-3. Run typecheck, lint, and tests before finishing.
-4. Update this file's **Development Commands** table when project scripts are added.
+2. For binding availability, maturity, and migration scope, read [bindings-status.md](https://github.com/octanejs/octane/blob/main/docs/bindings-status.md).
+3. Inspect surrounding code before adding new patterns.
+4. Run typecheck, lint, and tests before finishing.
+5. Update this file's **Development Commands** table when project scripts are added.

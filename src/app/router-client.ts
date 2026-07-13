@@ -6,7 +6,7 @@ import {
 } from '@/lib/pwa-update.ts';
 
 export const clientRouter: ReturnType<typeof makeRouter> | null =
-	typeof document === 'undefined' ? null : makeRouter({ isServer: true });
+	typeof document === 'undefined' ? null : makeRouter();
 
 let pwaClientInitStarted = false;
 
@@ -29,11 +29,11 @@ export default async function ensureClientRouterReady(ctx?: { url?: string }): P
 	if (!clientRouter) return;
 
 	const pathname = (ctx?.url ?? window.location.pathname).split('?')[0];
+
+	await clientRouter.load();
 	if (clientRouter.state.location.pathname !== pathname) {
 		await clientRouter.navigate({ to: pathname });
 	}
-
-	await clientRouter.load();
 	for (let i = 0; i < 50; i++) {
 		const matches = clientRouter.stores.matches.get?.() ?? clientRouter.stores.matches.value ?? [];
 		if (matches.length > 0) break;
