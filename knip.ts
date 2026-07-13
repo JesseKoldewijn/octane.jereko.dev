@@ -47,9 +47,6 @@ const config = {
 		'tailwindcss-animate',
 		'platformicons',
 		'devalue',
-		'@octanejs/testing-library',
-		// Transitive via @octanejs/radix; listed so Bun links it for SSR bundling.
-		'@octanejs/floating-ui',
 		// Bundled separately from @octanejs/motion (see vite.config.ts ssr.external).
 		'motion',
 	],

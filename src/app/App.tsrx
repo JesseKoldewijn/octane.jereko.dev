@@ -1,4 +1,3 @@
-import '@/styles/globals.css';
 import { SiteShell } from '../components/layout/SiteShell.tsrx';
 
 export function App(props: { url?: string }) @{
