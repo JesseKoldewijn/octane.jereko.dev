@@ -284,19 +284,19 @@ When implementing functionality that maps to a well-known React library, **use t
 
 **Verify installed packages in this repo:** read [`package.json`](package.json) and [`bun.lock`](bun.lock). Do not rely on public registry search alone — some bindings are new or versioned independently of upstream React packages.
 
-| Need                  | Use                                                            |
-| --------------------- | -------------------------------------------------------------- |
-| Global state          | `@octanejs/zustand`                                            |
-| Server/async state    | `@octanejs/tanstack-query`                                     |
-| Routing               | `@octanejs/tanstack-router` or `@octanejs/vite-plugin` routing |
-| Animation             | `@octanejs/motion`                                             |
-| Atomic CSS (StyleX)   | `@octanejs/stylex`                                             |
-| Rich text             | `@octanejs/lexical`                                            |
-| Accessible primitives | `@octanejs/base-ui` (preferred; alpha, in progress)            |
+| Need                  | Use                                                                                               |
+| --------------------- | ------------------------------------------------------------------------------------------------- |
+| Global state          | `@octanejs/zustand`                                                                               |
+| Server/async state    | `@octanejs/tanstack-query`                                                                        |
+| Routing               | `@octanejs/tanstack-router` or `@octanejs/vite-plugin` routing                                    |
+| Animation             | `@octanejs/motion`                                                                                |
+| Atomic CSS (StyleX)   | `@octanejs/stylex`                                                                                |
+| Rich text             | `@octanejs/lexical`                                                                               |
+| Accessible primitives | `@octanejs/base-ui` (preferred; alpha, in progress)                                               |
 | Low-level positioning | `@octanejs/floating-ui` (transitive via base-ui; add direct dep only if SSR bundling requires it) |
-| Charts                | `@octanejs/recharts`                                           |
-| MDX                   | `@octanejs/mdx`                                                |
-| Testing               | `@octanejs/testing-library`                                    |
+| Charts                | `@octanejs/recharts`                                                                              |
+| MDX                   | `@octanejs/mdx`                                                                                   |
+| Testing               | `@octanejs/testing-library`                                                                       |
 
 Import path change is usually the only migration step (e.g. `@tanstack/react-query` → `@octanejs/tanstack-query`).
 
